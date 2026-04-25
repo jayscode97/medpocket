@@ -7,6 +7,7 @@ import ConditionDetailScreen from './screens/ConditionDetailScreen';
 import DrugsScreen from './screens/DrugsScreen';
 import DrugDetailScreen from './screens/DrugDetailScreen';
 import ProceduresScreen from './screens/ProceduresScreen';
+import ProcedureDetailScreen from './screens/ProcedureDetailScreen';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -15,6 +16,7 @@ export type RootStackParamList = {
   Drugs: undefined;
   DrugDetail: { drugId: string };
   Procedures: undefined;
+  ProcedureDetail: { procedureId: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -37,6 +39,7 @@ export default function App() {
           <Stack.Screen name="Drugs" component={DrugsScreen} />
           <Stack.Screen name="DrugDetail" component={DrugDetailScreen} options={{ title: '' }} />
           <Stack.Screen name="Procedures" component={ProceduresScreen} />
+          <Stack.Screen name="ProcedureDetail" component={ProcedureDetailScreen} options={{ title: '' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
