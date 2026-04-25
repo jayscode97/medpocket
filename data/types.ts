@@ -50,11 +50,53 @@ export type Condition = {
 
 export type DrugCategory =
   | 'Antihypertensives'
-  | 'Antihistamines'
-  | 'Corticosteroids'
-  | 'Diuretics'
   | 'Antiarrhythmics'
-  | 'Anti-Asthma & COPD';
+  | 'Anticoagulants'
+  | 'Antiplatelets'
+  | 'Diuretics'
+  | 'Vasopressors & Inotropes'
+  | 'Antibiotics'
+  | 'Analgesics & Sedation'
+  | 'Anti-Asthma & COPD'
+  | 'Corticosteroids'
+  | 'Antihistamines'
+  | 'Antiemetics'
+  | 'Antiepileptics'
+  | 'Endocrine';
+
+// ─── Procedure Types ──────────────────────────────────────────────────────────
+
+export type ProcedureCategory =
+  | 'Airway Management'
+  | 'Genitourinary'
+  | 'Abdominal'
+  | 'Spinal & Neurological'
+  | 'Emergency Protocols';
+
+export type ProcedureStep = {
+  step: string;
+  detail?: string;
+};
+
+export type ProcedurePhase = {
+  title: string;
+  steps: ProcedureStep[];
+};
+
+export type Procedure = {
+  id: string;
+  name: string;
+  aliases?: string[];
+  category: ProcedureCategory;
+  overview: string;
+  indications: string[];
+  contraindications?: string[];
+  equipment?: string[];
+  positioning?: string;
+  phases: ProcedurePhase[];
+  complications?: string[];
+  pearls?: string[];
+};
 
 export type Drug = {
   id: string;
