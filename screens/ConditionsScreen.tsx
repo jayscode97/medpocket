@@ -1,36 +1,69 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { conditions } from '../data/conditions';
-import { Condition } from '../data/types';
+import { Acuity, Condition } from '../data/types';
 import { RootStackParamList } from '../App';
 
-type Nav = NativeStackNavigationProp<RootStackParamList, 'Conditions'>;
+type Nav   = NativeStackNavigationProp<RootStackParamList, 'Conditions'>;
+type Route = RouteProp<RootStackParamList, 'Conditions'>;
+
+const ACUITY_COLOR: Record<Acuity, string> = {
+  High:     '#f85149',
+  Moderate: '#e3b341',
+  Low:      '#3fb950',
+};
+
+function AcuityDot({ acuity }: { acuity: Acuity }) {
+  return (
+    <View style={[dotStyles.dot, { backgroundColor: ACUITY_COLOR[acuity] }]} />
+  );
+}
+
+const dotStyles = StyleSheet.create({
+  dot: { width: 8, height: 8, borderRadius: 4, marginLeft: 10 },
+});
 
 export default function ConditionsScreen() {
   const navigation = useNavigation<Nav>();
+  const { params }  = useRoute<Route>();
+  const acuityFilter = params?.acuityFilter;
+
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    if (acuityFilter) {
+      navigation.setOptions({ title: `${acuityFilter} Acuity` });
+    } else {
+      navigation.setOptions({ title: 'Conditions' });
+    }
+  }, [acuityFilter]);
 
   const sections = useMemo(() => {
     const q = query.toLowerCase().trim();
-    const filtered = q
-      ? conditions.filter(c =>
-          c.name.toLowerCase().includes(q) ||
-          c.aliases?.some(a => a.toLowerCase().includes(q)) ||
-          c.tags?.some(t => t.toLowerCase().includes(q))
-        )
+
+    let pool = acuityFilter
+      ? conditions.filter(c => c.acuity === acuityFilter)
       : conditions;
 
-    const grouped = filtered.reduce<Record<string, Condition[]>>((acc, c) => {
+    if (q) {
+      pool = pool.filter(c =>
+        c.name.toLowerCase().includes(q) ||
+        c.aliases?.some(a => a.toLowerCase().includes(q)) ||
+        c.tags?.some(t => t.toLowerCase().includes(q))
+      );
+    }
+
+    const grouped = pool.reduce<Record<string, Condition[]>>((acc, c) => {
       if (!acc[c.system]) acc[c.system] = [];
       acc[c.system].push(c);
       return acc;
     }, {});
 
     return Object.entries(grouped).map(([title, data]) => ({ title, data }));
-  }, [query]);
+  }, [query, acuityFilter]);
 
   return (
     <View style={styles.root}>
@@ -62,7 +95,7 @@ export default function ConditionsScreen() {
         )}
         renderItem={({ item, index, section }) => {
           const isFirst = index === 0;
-          const isLast = index === section.data.length - 1;
+          const isLast  = index === section.data.length - 1;
           return (
             <TouchableOpacity
               style={[styles.row, isFirst && styles.rowFirst, isLast && styles.rowLast]}
@@ -70,12 +103,15 @@ export default function ConditionsScreen() {
               onPress={() => navigation.navigate('ConditionDetail', { conditionId: item.id })}
             >
               <Text style={styles.rowText}>{item.name}</Text>
-              <Ionicons name="chevron-forward" size={16} color="#8b949e" />
+              {!acuityFilter && <AcuityDot acuity={item.acuity} />}
+              <Ionicons name="chevron-forward" size={16} color="#8b949e" style={{ marginLeft: 6 }} />
             </TouchableOpacity>
           );
         }}
         ListEmptyComponent={
-          <Text style={styles.empty}>No conditions match "{query}"</Text>
+          <Text style={styles.empty}>
+            {query ? `No conditions match "${query}"` : 'No conditions in this category yet.'}
+          </Text>
         }
       />
     </View>

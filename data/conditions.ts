@@ -9,6 +9,7 @@ export const conditions: Condition[] = [
     name: 'STEMI',
     aliases: ['ST-Elevation MI', 'Acute MI'],
     system: 'Cardiovascular',
+    acuity: 'High',
     tags: ['chest pain', 'acs', 'ecg'],
     overview: 'Complete occlusion of a coronary artery causing full-thickness myocardial infarction. Time-sensitive — door-to-balloon < 90 min.',
     presentation: {
@@ -41,6 +42,7 @@ export const conditions: Condition[] = [
     name: 'Atrial Fibrillation with RVR',
     aliases: ['AF', 'A-fib'],
     system: 'Cardiovascular',
+    acuity: 'High',
     tags: ['arrhythmia', 'palpitations', 'tachycardia'],
     overview: 'Irregularly irregular supraventricular arrhythmia. Manage rate vs. rhythm based on stability and duration.',
     presentation: {
@@ -73,6 +75,7 @@ export const conditions: Condition[] = [
     name: 'Pulmonary Embolism',
     aliases: ['PE', 'DVT/PE'],
     system: 'Pulmonary',
+    acuity: 'High',
     tags: ['dyspnea', 'chest pain', 'hypoxia', 'dvt'],
     overview: 'Thrombotic occlusion of pulmonary vasculature. Risk-stratify with Wells score and PERC rule.',
     presentation: {
@@ -103,6 +106,7 @@ export const conditions: Condition[] = [
     name: 'Acute Asthma Exacerbation',
     aliases: ['Status asthmaticus'],
     system: 'Pulmonary',
+    acuity: 'High',
     tags: ['wheeze', 'dyspnea', 'bronchospasm'],
     overview: 'Reversible airway obstruction from inflammation and bronchospasm. Severity guides stepwise management.',
     presentation: {
@@ -138,6 +142,7 @@ export const conditions: Condition[] = [
     name: 'Ischemic Stroke',
     aliases: ['CVA', 'Cerebrovascular accident'],
     system: 'Neurological',
+    acuity: 'High',
     tags: ['focal deficit', 'slurred speech', 'face droop', 'tpa'],
     overview: 'Focal neurological deficit from arterial occlusion. Time is brain — tPA window 3–4.5 h, thrombectomy up to 24 h.',
     presentation: {
@@ -171,6 +176,7 @@ export const conditions: Condition[] = [
     name: 'Upper GI Bleed',
     aliases: ['UGIB', 'Hematemesis', 'Melena'],
     system: 'Gastrointestinal',
+    acuity: 'High',
     tags: ['bleeding', 'hematemesis', 'melena', 'peptic ulcer'],
     overview: 'Hemorrhage proximal to the ligament of Treitz. Peptic ulcer disease is the most common cause.',
     presentation: {
@@ -204,6 +210,7 @@ export const conditions: Condition[] = [
     id: 'hyperkalemia',
     name: 'Hyperkalemia',
     system: 'Renal & GU',
+    acuity: 'High',
     tags: ['potassium', 'ecg changes', 'renal failure', 'arrhythmia'],
     overview: 'Serum K⁺ > 5.5 mEq/L. ECG changes guide urgency of treatment.',
     presentation: {
@@ -237,6 +244,7 @@ export const conditions: Condition[] = [
     id: 'sepsis',
     name: 'Sepsis / Septic Shock',
     system: 'Infectious Disease',
+    acuity: 'High',
     tags: ['fever', 'hypotension', 'infection', 'lactate', 'shock'],
     overview: 'Life-threatening organ dysfunction from dysregulated host response to infection. Septic shock = sepsis + vasopressors + lactate > 2.',
     presentation: {
@@ -270,6 +278,7 @@ export const conditions: Condition[] = [
     name: 'Diabetic Ketoacidosis',
     aliases: ['DKA'],
     system: 'Endocrine & Metabolic',
+    acuity: 'High',
     tags: ['diabetes', 'ketosis', 'acidosis', 'hyperglycemia'],
     overview: 'Insulin deficiency → hyperglycemia + ketoacidosis. Triad: glucose > 250, pH < 7.3, ketonemia.',
     presentation: {
@@ -303,6 +312,7 @@ export const conditions: Condition[] = [
     name: 'Acetaminophen Overdose',
     aliases: ['Tylenol OD', 'APAP toxicity', 'Paracetamol OD'],
     system: 'Toxicology',
+    acuity: 'High',
     tags: ['overdose', 'liver failure', 'nac', 'intentional ingestion'],
     overview: 'Leading cause of acute liver failure. Early symptoms are mild — high clinical suspicion required. NAC is highly effective if given early.',
     presentation: {
@@ -333,6 +343,7 @@ export const conditions: Condition[] = [
     id: 'tension-pneumothorax',
     name: 'Tension Pneumothorax',
     system: 'Trauma',
+    acuity: 'High',
     tags: ['chest trauma', 'respiratory failure', 'needle decompression', 'arrest'],
     overview: 'Air trapped under pressure in pleural space → mediastinal shift → obstructive shock. Clinical diagnosis — do not wait for imaging.',
     presentation: {

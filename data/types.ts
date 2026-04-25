@@ -16,11 +16,14 @@ export type OrganSystem =
   | 'Trauma'
   | 'OB/GYN';
 
+export type Acuity = 'High' | 'Moderate' | 'Low';
+
 export type Condition = {
   id: string;
   name: string;
   aliases?: string[];
   system: OrganSystem;
+  acuity: Acuity;
   tags?: string[];
 
   overview: string;

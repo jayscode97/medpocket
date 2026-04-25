@@ -9,7 +9,7 @@ import { RootStackParamList } from '../App';
 type HomeNavProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const NAV_ITEMS: { label: string; icon: string; screen: keyof RootStackParamList }[] = [
-  { label: 'Conditions', icon: '🫀', screen: 'Conditions' },
+  { label: 'Conditions', icon: '🫀', screen: 'ConditionsCategory' },
   { label: 'Drugs',      icon: '💊', screen: 'Drugs' },
   { label: 'Procedures', icon: '🩺', screen: 'Procedures' },
 ];

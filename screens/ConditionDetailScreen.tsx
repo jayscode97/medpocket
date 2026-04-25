@@ -5,6 +5,18 @@ import { conditions } from '../data/conditions';
 
 type Route = RouteProp<RootStackParamList, 'ConditionDetail'>;
 
+function acuityBadgeStyle(acuity: string) {
+  if (acuity === 'High')     return { backgroundColor: '#3a1a1a', borderColor: '#f85149' };
+  if (acuity === 'Moderate') return { backgroundColor: '#3a2e0a', borderColor: '#e3b341' };
+  return { backgroundColor: '#1a3a1a', borderColor: '#3fb950' };
+}
+
+function acuityTextStyle(acuity: string) {
+  if (acuity === 'High')     return { color: '#f85149' };
+  if (acuity === 'Moderate') return { color: '#e3b341' };
+  return { color: '#3fb950' };
+}
+
 export default function ConditionDetailScreen() {
   const { params } = useRoute<Route>();
   const condition = conditions.find(c => c.id === params.conditionId);
@@ -24,8 +36,15 @@ export default function ConditionDetailScreen() {
       {condition.aliases && (
         <Text style={styles.aliases}>{condition.aliases.join(' · ')}</Text>
       )}
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>{condition.system}</Text>
+      <View style={styles.badgeRow}>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{condition.system}</Text>
+        </View>
+        <View style={[styles.badge, acuityBadgeStyle(condition.acuity)]}>
+          <Text style={[styles.badgeText, acuityTextStyle(condition.acuity)]}>
+            {condition.acuity} Acuity
+          </Text>
+        </View>
       </View>
 
       <Card title="Overview">
@@ -128,6 +147,7 @@ const styles = StyleSheet.create({
 
   name: { fontSize: 28, fontWeight: '700', color: C.text, marginBottom: 4 },
   aliases: { fontSize: 14, color: C.muted, marginBottom: 12 },
+  badgeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 24 },
   badge: {
     alignSelf: 'flex-start',
     backgroundColor: '#1c2d4a',
@@ -136,7 +156,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 10,
     paddingVertical: 3,
-    marginBottom: 24,
   },
   badgeText: { fontSize: 12, color: C.accent, fontWeight: '600' },
 

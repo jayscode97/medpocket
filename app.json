@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MedPocket",
-    "slug": "MedPocket",
+    "slug": "medpocket",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ba611bdb-0cca-4930-9faf-b38ee0a18a24"
+      }
+    },
+    "owner": "serhan-97"
   }
 }
