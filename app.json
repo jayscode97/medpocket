@@ -35,6 +35,12 @@
         "projectId": "ba611bdb-0cca-4930-9faf-b38ee0a18a24"
       }
     },
-    "owner": "serhan-97"
+    "owner": "serhan-97",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ba611bdb-0cca-4930-9faf-b38ee0a18a24"
+    }
   }
 }
