@@ -1,6 +1,9 @@
+import { Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 import { PinsProvider } from './contexts/PinsContext';
 import HomeScreen from './screens/HomeScreen';
 import ConditionsScreen from './screens/ConditionsScreen';
@@ -22,32 +25,43 @@ export type RootStackParamList = {
   ProcedureDetail: { procedureId: string };
 };
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <PinsProvider>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerStyle: { backgroundColor: '#161b22' },
-              headerTintColor: '#e6edf3',
-              headerTitleStyle: { fontWeight: '600', fontSize: 17 },
-              contentStyle: { backgroundColor: '#0d1117' },
-            }}
-          >
-            <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="ConditionsCategory" component={ConditionsCategoryScreen} options={{ title: 'Conditions' }} />
-            <Stack.Screen name="Conditions" component={ConditionsScreen} />
-            <Stack.Screen name="ConditionDetail" component={ConditionDetailScreen} options={{ title: '' }} />
-            <Stack.Screen name="Drugs" component={DrugsScreen} />
-            <Stack.Screen name="DrugDetail" component={DrugDetailScreen} options={{ title: '' }} />
-            <Stack.Screen name="Procedures" component={ProceduresScreen} />
-            <Stack.Screen name="ProcedureDetail" component={ProcedureDetailScreen} options={{ title: '' }} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PinsProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <PinsProvider>
+          <NavigationContainer>
+            <Stack.Navigator
+              screenOptions={({ navigation }) => ({
+                headerStyle: { backgroundColor: '#161b22' },
+                headerTintColor: '#e6edf3',
+                headerTitleStyle: { fontWeight: '600', fontSize: 17 },
+                cardStyle: { backgroundColor: '#0d1117' },
+                headerLeft: ({ canGoBack }) =>
+                  canGoBack ? (
+                    <Pressable
+                      onPress={() => navigation.goBack()}
+                      style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center', marginLeft: 4 }}
+                    >
+                      <Ionicons name="chevron-back" size={26} color="#e6edf3" />
+                    </Pressable>
+                  ) : null,
+              })}
+            >
+              <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+              <Stack.Screen name="ConditionsCategory" component={ConditionsCategoryScreen} options={{ title: 'Conditions' }} />
+              <Stack.Screen name="Conditions" component={ConditionsScreen} />
+              <Stack.Screen name="ConditionDetail" component={ConditionDetailScreen} options={{ title: '' }} />
+              <Stack.Screen name="Drugs" component={DrugsScreen} />
+              <Stack.Screen name="DrugDetail" component={DrugDetailScreen} options={{ title: '' }} />
+              <Stack.Screen name="Procedures" component={ProceduresScreen} />
+              <Stack.Screen name="ProcedureDetail" component={ProcedureDetailScreen} options={{ title: '' }} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PinsProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

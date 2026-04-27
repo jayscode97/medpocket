@@ -2,12 +2,12 @@ import { useMemo, useState } from 'react';
 import { SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { drugs } from '../data/drugs';
 import { Drug } from '../data/types';
 import { RootStackParamList } from '../App';
 
-type Nav = NativeStackNavigationProp<RootStackParamList, 'Drugs'>;
+type Nav = StackNavigationProp<RootStackParamList, 'Drugs'>;
 
 export default function DrugsScreen() {
   const navigation = useNavigation<Nav>();

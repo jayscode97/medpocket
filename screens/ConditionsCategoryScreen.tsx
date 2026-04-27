@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { conditions } from '../data/conditions';
 import { RootStackParamList } from '../App';
 
-type Nav = NativeStackNavigationProp<RootStackParamList, 'ConditionsCategory'>;
+type Nav = StackNavigationProp<RootStackParamList, 'ConditionsCategory'>;
 
 const TILES = [
   {

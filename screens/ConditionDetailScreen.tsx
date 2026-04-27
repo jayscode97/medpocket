@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../App';
@@ -32,12 +32,12 @@ export default function ConditionDetailScreen() {
     if (!condition) return;
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
+        <Pressable
           onPress={() => togglePin({ kind: 'condition', id: condition.id, name: condition.name, sub: condition.system })}
           style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}
         >
           <Ionicons name={pinned ? 'star' : 'star-outline'} size={22} color={pinned ? '#e3b341' : '#8b949e'} />
-        </TouchableOpacity>
+        </Pressable>
       ),
     });
   }, [pinned, condition?.id]);
