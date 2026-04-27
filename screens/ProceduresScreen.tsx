@@ -6,11 +6,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { procedures } from '../data/procedures';
 import { Procedure } from '../data/types';
 import { RootStackParamList } from '../App';
+import { usePins } from '../contexts/PinsContext';
 
 type Nav = StackNavigationProp<RootStackParamList, 'Procedures'>;
 
 export default function ProceduresScreen() {
   const navigation = useNavigation<Nav>();
+  const { isPinned } = usePins();
   const [query, setQuery] = useState('');
 
   const sections = useMemo(() => {
@@ -63,7 +65,8 @@ export default function ProceduresScreen() {
         )}
         renderItem={({ item, index, section }) => {
           const isFirst = index === 0;
-          const isLast = index === section.data.length - 1;
+          const isLast  = index === section.data.length - 1;
+          const pinned  = isPinned('procedure', item.id);
           return (
             <TouchableOpacity
               style={[styles.row, isFirst && styles.rowFirst, isLast && styles.rowLast]}
@@ -74,6 +77,7 @@ export default function ProceduresScreen() {
                 <Text style={styles.rowText}>{item.name}</Text>
                 <Text style={styles.rowSub}>{item.phases.length} phases · {item.indications.length} indications</Text>
               </View>
+              {pinned && <Ionicons name="star" size={13} color="#e3b341" style={{ marginRight: 8 }} />}
               <Ionicons name="chevron-forward" size={16} color="#8b949e" />
             </TouchableOpacity>
           );

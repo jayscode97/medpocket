@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { conditions } from '../data/conditions';
 import { Acuity, Condition } from '../data/types';
 import { RootStackParamList } from '../App';
+import { usePins } from '../contexts/PinsContext';
 
 type Nav   = StackNavigationProp<RootStackParamList, 'Conditions'>;
 type Route = RouteProp<RootStackParamList, 'Conditions'>;
@@ -30,6 +31,7 @@ export default function ConditionsScreen() {
   const navigation = useNavigation<Nav>();
   const { params }  = useRoute<Route>();
   const acuityFilter = params?.acuityFilter;
+  const { isPinned } = usePins();
 
   const [query, setQuery] = useState('');
 
@@ -94,8 +96,9 @@ export default function ConditionsScreen() {
           <Text style={styles.sectionHeader}>{title}</Text>
         )}
         renderItem={({ item, index, section }) => {
-          const isFirst = index === 0;
-          const isLast  = index === section.data.length - 1;
+          const isFirst  = index === 0;
+          const isLast   = index === section.data.length - 1;
+          const pinned   = isPinned('condition', item.id);
           return (
             <TouchableOpacity
               style={[styles.row, isFirst && styles.rowFirst, isLast && styles.rowLast]}
@@ -103,8 +106,11 @@ export default function ConditionsScreen() {
               onPress={() => navigation.navigate('ConditionDetail', { conditionId: item.id })}
             >
               <Text style={styles.rowText}>{item.name}</Text>
+              {pinned && (
+                <Ionicons name="star" size={13} color="#e3b341" style={styles.starIcon} />
+              )}
               {!acuityFilter && <AcuityDot acuity={item.acuity} />}
-              <Ionicons name="chevron-forward" size={16} color="#8b949e" style={{ marginLeft: 6 }} />
+              <Ionicons name="chevron-forward" size={16} color="#8b949e" style={styles.chevron} />
             </TouchableOpacity>
           );
         }}
@@ -180,6 +186,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#e6edf3',
   },
+  starIcon: { marginLeft: 8 },
+  chevron:  { marginLeft: 6 },
   empty: {
     color: '#8b949e',
     textAlign: 'center',
