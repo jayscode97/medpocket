@@ -951,19 +951,368 @@ export const conditions: Condition[] = [
 
   // ─── Dermatology ──────────────────────────────────────────────────────────────
 
-  // TODO: Add conditions
+  {
+    id: 'urticaria',
+    name: 'Urticaria',
+    aliases: ['Hives', 'Allergic Rash'],
+    system: 'Dermatology',
+    acuity: 'Low',
+    tags: ['rash', 'allergy', 'itching'],
+    overview: 'Transient, pruritic wheals caused by mast cell histamine release. Usually self-limited. Ensure no anaphylaxis features.',
+    presentation: {
+      symptoms: ['Itchy raised welts', 'Burning or stinging skin', 'Dermographism'],
+      signs: ['Erythematous wheals of varying size', 'Blanching on pressure'],
+      redFlags: ['Angioedema', 'Stridor', 'Wheezing', 'Hypotension — escalate to anaphylaxis protocol'],
+    },
+    workup: {
+      labs: [],
+      imaging: [],
+      other: ['Clinical diagnosis', 'Identify trigger if possible'],
+    },
+    treatment: [
+      { step: 'Diphenhydramine 25–50 mg PO/IV', detail: 'First-line antihistamine' },
+      { step: 'Cetirizine 10 mg PO', detail: 'Non-sedating alternative or add-on' },
+      { step: 'Prednisone 40 mg PO × 3–5 days if severe or recurrent' },
+      { step: 'Epinephrine 0.3 mg IM if any anaphylaxis features' },
+    ],
+    disposition: 'Discharge with antihistamines; prescribe EpiPen if recurrent or severe',
+    pearls: [
+      'Always check for angioedema of tongue/lips/airway',
+      'Common triggers: NSAIDs, ACE inhibitors, antibiotics, foods',
+    ],
+  },
+
+  {
+    id: 'cellulitis-mild',
+    name: 'Cellulitis (Mild)',
+    aliases: ['Skin Infection'],
+    system: 'Dermatology',
+    acuity: 'Low',
+    tags: ['skin', 'infection', 'redness'],
+    overview: 'Bacterial infection of the dermis and subcutaneous tissue. Most commonly Strep or Staph. Rule out abscess, necrotizing fasciitis.',
+    presentation: {
+      symptoms: ['Redness', 'Warmth', 'Swelling', 'Pain at site'],
+      signs: ['Non-fluctuant erythema with ill-defined borders', 'Tenderness on palpation', 'Low-grade fever'],
+      redFlags: ['Rapidly spreading borders', 'Bullae', 'Crepitus', 'Severe pain out of proportion — necrotizing fasciitis'],
+    },
+    workup: {
+      labs: ['CBC, BMP if systemic symptoms', 'Blood cultures only if sepsis suspected'],
+      imaging: ['Ultrasound to rule out abscess if fluctuance present'],
+    },
+    treatment: [
+      { step: 'Mark the border with skin marker to track spread' },
+      { step: 'Cephalexin 500 mg PO QID × 5 days', detail: 'First-line for non-purulent cellulitis' },
+      { step: 'If MRSA risk: TMP-SMX DS 1 tab BID or Doxycycline 100 mg BID' },
+      { step: 'Elevate affected limb' },
+    ],
+    disposition: 'Discharge with oral antibiotics; return precautions if borders spreading',
+    pearls: [
+      'Bilateral lower extremity "cellulitis" is almost never cellulitis — consider stasis dermatitis',
+      'Any fluctuance = incision and drainage needed',
+    ],
+  },
 
   // ─── Ophthalmology ────────────────────────────────────────────────────────────
 
-  // TODO: Add conditions
+  {
+    id: 'conjunctivitis',
+    name: 'Conjunctivitis',
+    aliases: ['Pink Eye'],
+    system: 'Ophthalmology',
+    acuity: 'Low',
+    tags: ['eye', 'red eye', 'discharge'],
+    overview: 'Inflammation of the conjunctiva — viral (most common), bacterial, or allergic. Usually self-limited.',
+    presentation: {
+      symptoms: ['Red eye', 'Discharge (watery or purulent)', 'Foreign body sensation', 'Itching (allergic)'],
+      signs: ['Conjunctival injection', 'Watery/mucoid discharge (viral), purulent (bacterial)', 'Pre-auricular lymphadenopathy (viral)'],
+      redFlags: ['Photophobia', 'Decreased vision', 'Severe pain — consider keratitis, iritis, glaucoma'],
+    },
+    workup: {
+      labs: [],
+      imaging: [],
+      other: ['Clinical diagnosis', 'Fluorescein staining if corneal involvement suspected'],
+    },
+    treatment: [
+      { step: 'Viral: supportive — cool compresses, artificial tears' },
+      { step: 'Bacterial: erythromycin ophthalmic ointment or tobramycin drops' },
+      { step: 'Allergic: olopatadine drops, oral antihistamine' },
+      { step: 'Contact lens wearers: treat as bacterial, avoid contacts until resolved' },
+    ],
+    disposition: 'Discharge; ophthalmology follow-up if no improvement in 48–72 h',
+    pearls: [
+      'Viral conjunctivitis is highly contagious — counsel on hand hygiene',
+      'Neonatal conjunctivitis in first week of life is a different entity — refer urgently',
+    ],
+  },
 
   // ─── ENT ──────────────────────────────────────────────────────────────────────
 
-  // TODO: Add conditions
+  {
+    id: 'pharyngitis',
+    name: 'Pharyngitis',
+    aliases: ['Sore Throat', 'Strep Throat'],
+    system: 'ENT',
+    acuity: 'Low',
+    tags: ['sore throat', 'strep', 'exudate'],
+    overview: 'Inflammation of the pharynx. Viral in ~70% of cases. Group A Strep is the key bacterial cause to identify and treat.',
+    presentation: {
+      symptoms: ['Sore throat', 'Odynophagia', 'Fever', 'Headache'],
+      signs: ['Tonsillar erythema ± exudate', 'Anterior cervical lymphadenopathy', 'Fever'],
+      redFlags: ['Drooling', 'Stridor', 'Trismus', 'Uvular deviation — consider peritonsillar abscess or epiglottitis'],
+    },
+    workup: {
+      labs: ['Rapid strep test', 'Throat culture if rapid negative with high suspicion'],
+      imaging: [],
+      other: ['Centor/McIsaac score to guide testing'],
+    },
+    treatment: [
+      { step: 'Viral: supportive — analgesics, fluids, salt water gargles' },
+      { step: 'GAS confirmed: Amoxicillin 500 mg PO BID × 10 days' },
+      { step: 'Penicillin allergy: Azithromycin 500 mg day 1, then 250 mg × 4 days' },
+      { step: 'Dexamethasone 10 mg IV/IM once for severe pain or swelling' },
+    ],
+    disposition: 'Discharge; return if unable to swallow, drooling, or worsening',
+    pearls: [
+      'Centor score ≥ 3: test or treat empirically',
+      'Avoid amoxicillin if mono suspected — causes diffuse maculopapular rash',
+    ],
+  },
+
+  {
+    id: 'otitis-media',
+    name: 'Acute Otitis Media',
+    aliases: ['AOM', 'Ear Infection'],
+    system: 'ENT',
+    acuity: 'Low',
+    tags: ['ear', 'ear pain', 'otalgia'],
+    overview: 'Bacterial or viral middle ear infection, most common in children. S. pneumoniae, H. influenzae, M. catarrhalis are key pathogens.',
+    presentation: {
+      symptoms: ['Ear pain (otalgia)', 'Fever', 'Hearing loss', 'Ear pulling in children'],
+      signs: ['Erythematous, bulging tympanic membrane', 'Decreased TM mobility', 'Otorrhea if perforated'],
+      redFlags: ['Mastoid tenderness or erythema', 'Facial nerve palsy', 'Meningismus'],
+    },
+    workup: {
+      labs: [],
+      imaging: ['CT mastoids if mastoiditis suspected'],
+      other: ['Otoscopy — key finding is bulging TM'],
+    },
+    treatment: [
+      { step: 'Amoxicillin 500 mg PO TID × 5–7 days (adults), 90 mg/kg/day (children)' },
+      { step: 'Penicillin allergy: Azithromycin or Cefdinir' },
+      { step: 'Analgesia: ibuprofen or acetaminophen' },
+      { step: 'Watchful waiting acceptable in mild cases in children > 2 years' },
+    ],
+    disposition: 'Discharge; ENT follow-up if recurrent or no improvement in 48–72 h',
+    pearls: ['Perforated TM with drainage does not worsen prognosis and often gives pain relief'],
+  },
+
+  {
+    id: 'sinusitis',
+    name: 'Acute Sinusitis',
+    aliases: ['Sinus Infection', 'Rhinosinusitis'],
+    system: 'ENT',
+    acuity: 'Low',
+    tags: ['sinus', 'facial pain', 'congestion'],
+    overview: 'Inflammation of the paranasal sinuses. Viral in ~98% of cases. Bacterial sinusitis if symptoms persist > 10 days or worsen after initial improvement.',
+    presentation: {
+      symptoms: ['Facial pain/pressure', 'Nasal congestion', 'Purulent nasal discharge', 'Headache', 'Anosmia'],
+      signs: ['Sinus tenderness on palpation', 'Purulent discharge on exam'],
+      redFlags: ['Periorbital edema', 'Visual changes', 'High fever', 'Meningismus — orbital or intracranial extension'],
+    },
+    workup: {
+      labs: [],
+      imaging: ['CT sinuses only if complications suspected'],
+      other: ['Clinical diagnosis — imaging rarely needed for uncomplicated sinusitis'],
+    },
+    treatment: [
+      { step: 'Viral (< 10 days): supportive — saline irrigation, decongestants, analgesics' },
+      { step: 'Bacterial: Amoxicillin-clavulanate 875/125 mg PO BID × 5–7 days' },
+      { step: 'Nasal corticosteroids (fluticasone) for symptom relief' },
+      { step: 'Avoid routine imaging or antibiotics for viral sinusitis' },
+    ],
+    disposition: 'Discharge; return if vision changes, severe headache, or worsening after antibiotics',
+    pearls: ['Maxillary toothache can be caused by sinusitis', 'Antibiotics provide only marginal benefit in bacterial sinusitis'],
+  },
 
   // ─── Psychiatry ───────────────────────────────────────────────────────────────
 
   // TODO: Add conditions
+
+  // ─── Pulmonary (Low) ──────────────────────────────────────────────────────────
+
+  {
+    id: 'viral-uri',
+    name: 'Viral Upper Respiratory Infection',
+    aliases: ['Common Cold', 'URI'],
+    system: 'Pulmonary',
+    acuity: 'Low',
+    tags: ['cold', 'runny nose', 'cough', 'congestion'],
+    overview: 'Self-limited viral illness of the upper respiratory tract. Rhinovirus most common. No antibiotics indicated.',
+    presentation: {
+      symptoms: ['Rhinorrhea', 'Nasal congestion', 'Sore throat', 'Mild cough', 'Low-grade fever', 'Malaise'],
+      signs: ['Clear or white nasal discharge', 'Mild pharyngeal erythema'],
+      redFlags: ['High fever > 39.5°C', 'Persistent symptoms > 10 days', 'Focal lung findings — consider pneumonia'],
+    },
+    workup: {
+      labs: [],
+      imaging: [],
+      other: ['Clinical diagnosis', 'CXR only if pneumonia suspected'],
+    },
+    treatment: [
+      { step: 'Supportive care: rest, fluids, analgesics' },
+      { step: 'Decongestants (pseudoephedrine) or nasal saline for congestion' },
+      { step: 'Dextromethorphan for cough suppression' },
+      { step: 'No antibiotics — viral etiology' },
+    ],
+    disposition: 'Discharge; return if fever > 48 h, dyspnea, or worsening',
+    pearls: ['Honey 1–2 tsp is effective for cough in adults', 'Zinc lozenges within 24 h of onset may shorten duration'],
+  },
+
+  // ─── Gastrointestinal (Low) ───────────────────────────────────────────────────
+
+  {
+    id: 'viral-gastroenteritis',
+    name: 'Viral Gastroenteritis',
+    aliases: ['Stomach Bug', 'Stomach Flu'],
+    system: 'Gastrointestinal',
+    acuity: 'Low',
+    tags: ['vomiting', 'diarrhea', 'nausea'],
+    overview: 'Self-limited viral infection of the GI tract. Norovirus and rotavirus most common. Goal is hydration and symptom management.',
+    presentation: {
+      symptoms: ['Nausea', 'Vomiting', 'Watery diarrhea', 'Abdominal cramping', 'Low-grade fever'],
+      signs: ['Mild diffuse abdominal tenderness', 'Signs of dehydration if severe'],
+      redFlags: ['Bloody diarrhea', 'High fever', 'Severe dehydration', 'Symptoms > 7 days — consider bacterial cause'],
+    },
+    workup: {
+      labs: ['BMP if dehydration signs present'],
+      imaging: [],
+      other: ['Clinical diagnosis; stool cultures only if bloody diarrhea or immunocompromised'],
+    },
+    treatment: [
+      { step: 'Oral rehydration therapy — Pedialyte or diluted sports drinks' },
+      { step: 'IV fluids (NS 1–2 L) if unable to tolerate PO' },
+      { step: 'Ondansetron 4 mg PO/IV for nausea' },
+      { step: 'Loperamide for non-bloody diarrhea' },
+    ],
+    disposition: 'Discharge when tolerating PO; admit if severe dehydration or unable to keep fluids down',
+    pearls: ['Avoid antidiarrheals in bloody diarrhea or suspected bacterial cause', 'Highly contagious — counsel on hand hygiene'],
+  },
+
+  {
+    id: 'gerd',
+    name: 'GERD',
+    aliases: ['Acid Reflux', 'Heartburn', 'Gastroesophageal Reflux Disease'],
+    system: 'Gastrointestinal',
+    acuity: 'Low',
+    tags: ['heartburn', 'reflux', 'chest burning'],
+    overview: 'Retrograde flow of gastric acid causing esophageal irritation. Chronic condition; ED visits usually for symptom exacerbation or to rule out cardiac cause.',
+    presentation: {
+      symptoms: ['Burning chest/epigastric pain', 'Regurgitation', 'Worse after meals or lying down', 'Sour taste', 'Chronic cough'],
+      signs: ['Often unremarkable exam', 'Epigastric tenderness'],
+      redFlags: ['Dysphagia', 'Weight loss', 'Hematemesis', 'Chest pain not clearly reflux — rule out ACS'],
+    },
+    workup: {
+      labs: ['ECG and troponin to exclude cardiac cause if atypical presentation'],
+      imaging: [],
+      other: ['Clinical diagnosis; endoscopy as outpatient if refractory'],
+    },
+    treatment: [
+      { step: 'GI cocktail (antacid + viscous lidocaine ± antispasmodic) for immediate relief' },
+      { step: 'Omeprazole 20–40 mg PO daily × 4–8 weeks' },
+      { step: 'Dietary counseling: avoid fatty foods, alcohol, caffeine, late meals' },
+      { step: 'Elevate head of bed 30°' },
+    ],
+    disposition: 'Discharge with PPI; GI follow-up if refractory or alarm symptoms',
+    pearls: ['Classic relief with antacids supports diagnosis', 'H. pylori testing in young patients with new dyspepsia'],
+  },
+
+  // ─── Renal & GU (Low) ────────────────────────────────────────────────────────
+
+  {
+    id: 'uti-uncomplicated',
+    name: 'Uncomplicated UTI',
+    aliases: ['Cystitis', 'Bladder Infection'],
+    system: 'Renal & GU',
+    acuity: 'Low',
+    tags: ['uti', 'dysuria', 'frequency', 'urinary'],
+    overview: 'Bacterial infection confined to the bladder in a non-pregnant, immunocompetent woman with no structural abnormalities. Most commonly E. coli.',
+    presentation: {
+      symptoms: ['Dysuria', 'Urinary frequency', 'Urgency', 'Suprapubic discomfort', 'Hematuria'],
+      signs: ['Suprapubic tenderness', 'No CVA tenderness (distinguishes from pyelonephritis)'],
+      redFlags: ['CVA tenderness', 'Fever > 38°C', 'Rigors — consider pyelonephritis or urosepsis'],
+    },
+    workup: {
+      labs: ['Urinalysis (pyuria, bacteriuria, nitrites)', 'Urine culture if recurrent or treatment failure'],
+      imaging: [],
+    },
+    treatment: [
+      { step: 'Nitrofurantoin 100 mg PO BID × 5 days', detail: 'First-line; avoid if GFR < 30' },
+      { step: 'TMP-SMX DS PO BID × 3 days', detail: 'Alternative; check local resistance patterns' },
+      { step: 'Fosfomycin 3 g PO single dose', detail: 'Good option for compliance' },
+      { step: 'Phenazopyridine 200 mg TID × 2 days for dysuria relief' },
+    ],
+    disposition: 'Discharge with antibiotics; return if fever, worsening, or no improvement in 48 h',
+    pearls: ['Male UTI is considered complicated — work up for structural abnormality', 'Asymptomatic bacteriuria does not require treatment except in pregnancy'],
+  },
+
+  // ─── Musculoskeletal (Low) ────────────────────────────────────────────────────
+
+  {
+    id: 'ankle-sprain',
+    name: 'Ankle Sprain',
+    aliases: ['Lateral Ankle Sprain'],
+    system: 'Musculoskeletal',
+    acuity: 'Low',
+    tags: ['ankle', 'sprain', 'twist', 'injury'],
+    overview: 'Stretch or tear of ankle ligaments, most commonly the anterior talofibular ligament (ATFL). Graded I–III by severity.',
+    presentation: {
+      symptoms: ['Ankle pain', 'Swelling', 'Difficulty weight-bearing'],
+      signs: ['Swelling over lateral malleolus', 'ATFL tenderness', 'Anterior drawer test positive in Grade II/III'],
+      redFlags: ['Bony tenderness over malleolus tips or base of 5th metatarsal — apply Ottawa rules'],
+    },
+    workup: {
+      labs: [],
+      imaging: ['X-ray if Ottawa Ankle Rules positive (bony tenderness, inability to bear weight)'],
+    },
+    treatment: [
+      { step: 'RICE: Rest, Ice, Compression, Elevation' },
+      { step: 'NSAIDs for pain and swelling (ibuprofen 400–600 mg TID)' },
+      { step: 'Air stirrup brace or elastic bandage' },
+      { step: 'Early mobilization and physiotherapy referral' },
+    ],
+    disposition: 'Discharge with brace; orthopedic/physio follow-up for Grade III',
+    pearls: ['Ottawa Ankle Rules are highly sensitive for fracture', 'Grade III sprains may need surgical evaluation'],
+  },
+
+  {
+    id: 'low-back-pain',
+    name: 'Acute Low Back Pain',
+    aliases: ['Lumbalgia', 'Backache', 'LBP'],
+    system: 'Musculoskeletal',
+    acuity: 'Low',
+    tags: ['back pain', 'back', 'lumbar'],
+    overview: 'Acute musculoskeletal pain in the lumbar region, usually self-limiting. Rule out serious causes (cauda equina, fracture, aortic pathology).',
+    presentation: {
+      symptoms: ['Lumbar pain', 'Muscle spasm', 'Limited range of motion', 'Pain with movement'],
+      signs: ['Paraspinal muscle tenderness', 'Reduced lumbar flexion'],
+      redFlags: ['Saddle anesthesia', 'Bowel/bladder dysfunction', 'New neurological deficits', 'Fever + back pain', 'History of malignancy'],
+    },
+    workup: {
+      labs: [],
+      imaging: ['X-ray if fracture suspected (trauma, osteoporosis)', 'MRI if cauda equina or cord compression suspected'],
+    },
+    treatment: [
+      { step: 'NSAIDs first-line: ibuprofen 600 mg TID or naproxen 500 mg BID' },
+      { step: 'Muscle relaxants (cyclobenzaprine 5–10 mg TID) for spasm' },
+      { step: 'Encourage early activity — bed rest worsens outcomes' },
+      { step: 'Heat application for muscle spasm' },
+    ],
+    disposition: 'Discharge; primary care follow-up; immediate return if red flags develop',
+    pearls: [
+      'Cauda equina syndrome is a surgical emergency — MRI emergently if suspected',
+      'Opioids have poor evidence for acute LBP and high harm potential',
+    ],
+  },
 
 ];
 
