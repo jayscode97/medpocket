@@ -368,9 +368,582 @@ export const conditions: Condition[] = [
     ],
   },
 
-  // ─── Musculoskeletal ──────────────────────────────────────────────────────────
+  // ─── Cardiovascular (Moderate) ───────────────────────────────────────────────
 
-  // TODO: Add conditions
+  {
+    id: 'nstemi',
+    name: 'NSTEMI / Unstable Angina',
+    aliases: ['NSTEMI', 'UA', 'Non-ST Elevation MI', 'ACS'],
+    system: 'Cardiovascular',
+    acuity: 'Moderate',
+    tags: ['chest pain', 'acs', 'troponin', 'ecg'],
+    overview: 'Partial or dynamic coronary obstruction causing myocardial ischemia without complete transmural infarction. NSTEMI = positive troponin; UA = negative troponin. Risk-stratify early to guide timing of catheterization.',
+    presentation: {
+      symptoms: ['Chest pain or pressure (can radiate to arm or jaw)', 'Dyspnea', 'Diaphoresis', 'Nausea', 'Atypical: epigastric pain, fatigue (women, diabetics, elderly)'],
+      signs: ['May be normal', 'Diaphoresis', 'S3 or S4 gallop if LV dysfunction', 'New MR murmur'],
+      redFlags: ['Ongoing pain at rest', 'Hemodynamic instability', 'New ST depression or T-wave inversions', 'EF < 40%'],
+    },
+    workup: {
+      labs: ['Serial troponin (0 h, 3 h, 6 h — or high-sensitivity 0/1/3 h protocol)', 'BMP', 'CBC', 'Coagulation studies', 'BNP', 'Lipid panel', 'HbA1c'],
+      imaging: ['12-lead ECG (ST depression, T-wave inversions, LBBB)', 'CXR', 'Echo if LV function unknown'],
+    },
+    treatment: [
+      { step: 'Aspirin 325 mg PO chewed + P2Y12 inhibitor', detail: 'Ticagrelor 180 mg PO or clopidogrel 600 mg PO (discuss with cardiology before giving if CABG possible)' },
+      { step: 'Anticoagulation', detail: 'Heparin IV weight-based or enoxaparin 1 mg/kg SQ q12h' },
+      { step: 'Nitroglycerin SL for active pain; IV nitroglycerin if refractory', detail: 'Avoid if hypotensive or RV infarct suspected' },
+      { step: 'Beta-blocker PO if no contraindications', detail: 'Metoprolol 25–50 mg PO; avoid if HR < 60, HF, shock, 2°/3° block' },
+      { step: 'High-intensity statin', detail: 'Atorvastatin 80 mg PO' },
+      { step: 'Cardiology consult; risk-stratify with GRACE or TIMI score', detail: 'Early invasive (< 24 h) for: refractory ischemia, hemodynamic instability, elevated troponin, new ST changes. Conservative strategy if low-risk.' },
+    ],
+    disposition: 'Admit to cardiac monitored unit. Cardiology consult for timing of catheterization. CCU if high-risk or hemodynamically unstable.',
+    pearls: [
+      'Demand ischemia (Type 2 MI): sepsis, tachycardia, severe anemia — treat underlying cause, not the same as ACS',
+      'Women, diabetics, and elderly often present atypically — maintain low threshold for troponin',
+      'New LBBB + chest pain = treat as STEMI equivalent',
+      'GRACE score predicts 6-month mortality and guides invasive vs. conservative strategy',
+      'Hold P2Y12 inhibitors if CABG planned within 5 days (ticagrelor) or 7 days (clopidogrel)',
+    ],
+  },
+
+  {
+    id: 'hypertensive-urgency',
+    name: 'Hypertensive Urgency',
+    system: 'Cardiovascular',
+    acuity: 'Moderate',
+    tags: ['hypertension', 'blood pressure', 'headache'],
+    overview: 'Severe BP elevation (> 180/120 mmHg) WITHOUT acute target organ damage. Distinguished from hypertensive emergency by the absence of end-organ injury. Gradual oral treatment over 24–48 h is the goal.',
+    presentation: {
+      symptoms: ['Headache', 'Nausea', 'Dizziness', 'Epistaxis', 'Anxiety', 'Blurred vision'],
+      signs: ['BP > 180/120 on two readings', 'No focal neurological deficit', 'No papilledema', 'No S3, no pulmonary edema'],
+      redFlags: ['Papilledema or visual changes → emergency', 'New neurological deficit → emergency', 'Chest pain → rule out aortic dissection', 'Pulmonary edema → emergency'],
+    },
+    workup: {
+      labs: ['BMP (creatinine, potassium)', 'UA (proteinuria, casts)'],
+      imaging: ['ECG', 'CXR (cardiomegaly, pulmonary edema would suggest emergency)'],
+    },
+    treatment: [
+      { step: 'Oral antihypertensive — choose one', detail: 'Amlodipine 5–10 mg PO, labetalol 200 mg PO, or clonidine 0.1–0.2 mg PO' },
+      { step: 'Goal: reduce MAP by 25% over 24–48 h, then normalize over days', detail: 'Do NOT rapidly normalize BP — risk of watershed infarcts and end-organ ischemia' },
+      { step: 'Address non-adherence: resume or optimize home medications' },
+      { step: 'Oral hydration if volume-depleted' },
+    ],
+    disposition: 'Outpatient with 24–72 h PCP follow-up in most cases. Discharge with medications and BP monitoring instructions.',
+    pearls: [
+      'Rapid BP normalization can cause strokes — the goal is gradual reduction over 24–48 h, not to the ED',
+      'Confirm BP with correct cuff size — too small a cuff falsely elevates reading',
+      'Sublingual nifedipine: DO NOT USE — causes unpredictable precipitous drops, associated with MI and stroke',
+      'Most cases are undertreated chronic hypertension with non-adherence — the underlying condition needs long-term management',
+      'If end-organ damage found on workup → reclassify as hypertensive emergency and manage accordingly',
+    ],
+  },
+
+  {
+    id: 'dvt',
+    name: 'Deep Vein Thrombosis (DVT)',
+    aliases: ['DVT', 'Deep venous thrombosis'],
+    system: 'Cardiovascular',
+    acuity: 'Moderate',
+    tags: ['leg swelling', 'thrombosis', 'blood clot', 'anticoagulation'],
+    overview: 'Thrombosis in the deep venous system, most commonly proximal lower extremity. Proximal DVT (above knee) carries significant PE risk. Part of the VTE spectrum — PE is covered separately under High Acuity.',
+    presentation: {
+      symptoms: ['Unilateral leg swelling', 'Pain or tenderness', 'Warmth', 'Erythema', 'May be asymptomatic'],
+      signs: ['Calf or thigh swelling > 3 cm vs. contralateral leg', 'Warmth and erythema', 'Tenderness along deep venous course'],
+      redFlags: ['Dyspnea + pleuritic chest pain + tachycardia = suspected PE (see High Acuity)', 'Phlegmasia cerulea dolens (massive DVT with venous gangrene) = surgical emergency'],
+    },
+    workup: {
+      labs: ['CBC', 'BMP', 'Coagulation studies', 'D-dimer (only if Wells < 2 to rule out; skip to US if Wells ≥ 2)'],
+      imaging: ['Compression duplex ultrasound lower extremity (gold standard)', 'CT venography or MRI venography for iliac/pelvic DVT if US equivocal'],
+      other: ['Wells DVT Score: ≥ 2 = high probability → go straight to US; < 2 → D-dimer first'],
+    },
+    treatment: [
+      { step: 'Start anticoagulation — DOACs are first-line', detail: 'Apixaban 10 mg PO BID × 7 days then 5 mg BID; OR rivaroxaban 15 mg BID × 21 days then 20 mg daily — no bridging needed' },
+      { step: 'Alternative: LMWH (enoxaparin 1 mg/kg SQ q12h)', detail: 'Preferred in pregnancy and cancer-associated VTE; bridge to warfarin if DOAC not available' },
+      { step: 'Duration: provoked (surgery/trauma) → 3 months; unprovoked → 3–6 months minimum; recurrent or cancer → indefinite' },
+      { step: 'Compression stockings (30–40 mmHg) to reduce post-thrombotic syndrome' },
+      { step: 'Mobilization: walking encouraged — bed rest not required' },
+    ],
+    disposition: 'Most proximal DVTs can be managed outpatient if: no significant comorbidities, can start anticoagulation same-day, reliable follow-up in 1–2 days. Admit if: bilateral DVT, massive iliofemoral DVT, significant bleeding risk, unreliable follow-up.',
+    pearls: [
+      'Wells ≥ 2 → skip D-dimer and go straight to ultrasound — high pre-test probability makes negative D-dimer less useful',
+      'DOAC monotherapy (apixaban or rivaroxaban) has replaced warfarin + LMWH bridging for most DVTs',
+      'Cancer-associated VTE: LMWH or DOACs (rivaroxaban/edoxaban) preferred over warfarin',
+      'Upper extremity DVT (subclavian/axillary): often line-associated; treat the same as lower extremity DVT',
+      'Phlegmasia cerulea dolens: massive proximal DVT → limb-threatening → emergent catheter-directed thrombolysis or surgical thrombectomy',
+    ],
+  },
+
+  // ─── Pulmonary (Moderate) ─────────────────────────────────────────────────────
+
+  {
+    id: 'cap',
+    name: 'Community-Acquired Pneumonia',
+    aliases: ['CAP', 'Pneumonia'],
+    system: 'Pulmonary',
+    acuity: 'Moderate',
+    tags: ['cough', 'fever', 'infiltrate', 'dyspnea', 'infection'],
+    overview: 'Acute lower respiratory tract infection acquired outside the hospital. CURB-65 or PSI/PORT score guides outpatient vs. inpatient vs. ICU disposition. Streptococcus pneumoniae is the most common bacterial cause.',
+    presentation: {
+      symptoms: ['Productive cough', 'Fever', 'Dyspnea', 'Pleuritic chest pain', 'Fatigue', 'Rigors'],
+      signs: ['Fever', 'Tachycardia', 'Tachypnea', 'Dullness to percussion', 'Decreased breath sounds', 'Crackles or bronchial breathing'],
+      redFlags: ['SpO2 < 90%', 'RR > 30', 'BP < 90/60', 'Confusion (CURB-65 ≥ 3 → ICU consideration)'],
+    },
+    workup: {
+      labs: ['CBC (leukocytosis)', 'BMP', 'Blood cultures × 2 before antibiotics (if admitted)', 'Sputum culture (if admitted)', 'Procalcitonin', 'Urinary Legionella antigen (severe CAP)', 'Urinary pneumococcal antigen'],
+      imaging: ['PA and lateral CXR (lobar consolidation, interstitial infiltrates)', 'CT chest if CXR equivocal or failure to improve'],
+      other: ['CURB-65: Confusion, Urea > 7 mmol/L, RR > 30, BP < 90/60, Age ≥ 65. 0–1 = outpatient; 2 = admit; ≥ 3 = consider ICU'],
+    },
+    treatment: [
+      { step: 'Supplemental O2 to SpO2 ≥ 94%' },
+      { step: 'Outpatient (CURB-65 0–1)', detail: 'Amoxicillin-clavulanate 875 mg BID + azithromycin 500 mg × 1 then 250 mg × 4 days; OR doxycycline 100 mg BID × 5 days' },
+      { step: 'Inpatient non-ICU (CURB-65 2)', detail: 'Ceftriaxone 1–2 g IV q24h + azithromycin 500 mg IV/PO q24h; OR respiratory fluoroquinolone (levofloxacin 750 mg daily)' },
+      { step: 'ICU / severe (CURB-65 ≥ 3)', detail: 'Ceftriaxone + azithromycin; add vancomycin if MRSA risk factors (post-influenza, cavitary lesion, injection drug use)' },
+      { step: 'Duration: 5 days total (step down to PO when afebrile and improving)' },
+    ],
+    disposition: 'CURB-65 0–1: discharge with oral antibiotics and follow-up. CURB-65 2: admit. ≥ 3: admit with ICU consideration.',
+    pearls: [
+      'Atypicals (Mycoplasma, Chlamydophila, Legionella): younger, insidious onset, non-productive cough, extrapulmonary features — require macrolide or doxycycline coverage',
+      'Legionella: hyponatremia + severe CAP + hotel/travel/cooling tower exposure — urinary antigen test',
+      'CXR may lag 24–48 h behind clinical presentation — treat clinically if high suspicion',
+      'Blood cultures positive in only ~10% of CAP — still guide de-escalation if positive',
+      'COVID-19 can mimic CAP with bilateral ground-glass opacities — check respiratory viral panel',
+    ],
+  },
+
+  {
+    id: 'copd-exacerbation',
+    name: 'COPD Exacerbation',
+    aliases: ['AECOPD', 'COPD flare'],
+    system: 'Pulmonary',
+    acuity: 'Moderate',
+    tags: ['dyspnea', 'wheeze', 'cough', 'COPD', 'smoking', 'hypercapnia'],
+    overview: 'Acute worsening of COPD symptoms beyond normal day-to-day variation. Usually triggered by respiratory infection. Core management: bronchodilators, controlled O2, systemic steroids, and antibiotics if purulent sputum.',
+    presentation: {
+      symptoms: ['Increased dyspnea', 'Increased sputum production (change in color or volume)', 'Wheeze', 'Cough', 'Fatigue'],
+      signs: ['Tachycardia', 'Tachypnea', 'Barrel chest', 'Pursed-lip breathing', 'Accessory muscle use', 'Prolonged expiration', 'Diminished breath sounds'],
+      redFlags: ['RR > 30', 'SpO2 < 88% despite O2', 'AMS', 'Inability to speak in full sentences', 'Silent chest', 'PaCO2 rising with normal or low pH'],
+    },
+    workup: {
+      labs: ['ABG or VBG (pH, PaCO2, PaO2)', 'BMP', 'CBC', 'BNP (exclude CHF)', 'Procalcitonin'],
+      imaging: ['CXR (hyperinflation, r/o pneumonia or pneumothorax)', 'ECG'],
+      other: ['Peak flow (if obtainable)', 'Sputum culture if purulent'],
+    },
+    treatment: [
+      { step: 'Controlled O2: target SpO2 88–92%', detail: 'Avoid high-flow O2 — worsens hypercapnia (Haldane effect + loss of hypoxic drive)' },
+      { step: 'SABA: albuterol 2.5 mg nebulized q20min × 3, then q1–4h' },
+      { step: 'SAMA: ipratropium 0.5 mg nebulized combined with albuterol' },
+      { step: 'Systemic corticosteroids', detail: 'Prednisone 40 mg PO or methylprednisolone 40–60 mg IV × 5 days (REDUCE trial: 5 days = 14 days)' },
+      { step: 'Antibiotics if purulent sputum + increased volume or dyspnea (Anthonisen criteria)', detail: 'Azithromycin 500 mg × 1 then 250 mg × 4 days; OR doxycycline 100 mg BID × 5 days; OR amoxicillin-clavulanate' },
+      { step: 'NIPPV (BiPAP) if pH < 7.35 + PaCO2 > 45, RR > 25, or moderate–severe dyspnea', detail: 'Reduces intubation rate and mortality — Level A evidence (GOLD guidelines)' },
+      { step: 'Intubation if NIPPV fails, severe acidosis (pH < 7.25), AMS, or respiratory arrest' },
+    ],
+    disposition: 'Discharge if responds to treatment and SpO2 ≥ 92% on home O2 or room air. Admit if moderate–severe, first presentation without established diagnosis, or inadequate home support.',
+    pearls: [
+      'Target SpO2 88–92%, NOT > 94% — hyperoxia drives up PaCO2 in COPD patients',
+      'Normal PaCO2 in a tachypneic COPD patient = tiring out — prepare for BiPAP or intubation',
+      'BiPAP is evidence-based and should be offered early — avoids intubation in majority',
+      'Antibiotics reduce treatment failure even in presumed viral exacerbations when sputum is purulent',
+      'Discharge teaching: inhaler technique, smoking cessation, flu + pneumococcal vaccines, COPD action plan',
+    ],
+  },
+
+  {
+    id: 'pneumothorax',
+    name: 'Spontaneous Pneumothorax',
+    aliases: ['PTX', 'Primary spontaneous pneumothorax', 'PSP'],
+    system: 'Pulmonary',
+    acuity: 'Moderate',
+    tags: ['chest pain', 'dyspnea', 'pleuritic', 'young male', 'tall'],
+    overview: 'Accumulation of air in the pleural space without trauma. Primary (no underlying lung disease) occurs in tall thin young males; secondary occurs with underlying lung disease (COPD, cystic fibrosis). Tension PTX is a separate High Acuity condition.',
+    presentation: {
+      symptoms: ['Sudden pleuritic chest pain', 'Dyspnea (mild to moderate)', 'Dry cough'],
+      signs: ['Decreased breath sounds ipsilaterally', 'Hyperresonance to percussion', 'Mildly reduced SpO2', 'Tachycardia'],
+      redFlags: ['Hemodynamic instability', 'Tracheal deviation', 'Severe hypoxia', 'Bilateral involvement → tension pneumothorax (see High Acuity)'],
+    },
+    workup: {
+      labs: ['ABG if moderate symptoms'],
+      imaging: ['Upright PA and lateral CXR (visible pleural line, absent lung markings peripherally)', 'US (absent lung sliding at apex)', 'CT chest if small or uncertain on CXR'],
+      other: ['Size: small < 2 cm rim at apex (PA CXR); large ≥ 2 cm'],
+    },
+    treatment: [
+      { step: 'All patients: supplemental O2 at 100%', detail: 'Accelerates nitrogen reabsorption from pleural space by 4×, speeding resolution' },
+      { step: 'Small primary PTX (< 2 cm, minimally symptomatic): observation × 3–6 h + repeat CXR', detail: 'Discharge if stable with follow-up CXR in 24–48 h' },
+      { step: 'Large primary PTX (≥ 2 cm) or symptomatic: needle aspiration first', detail: '14–16g catheter, 2nd ICS MCL; if lung re-expands on CXR at 1 h → success, discharge. If not → chest tube.' },
+      { step: 'Secondary PTX (underlying lung disease): lower threshold for admission and chest tube regardless of size' },
+      { step: 'Recurrent PTX: referral to thoracic surgery for pleurodesis or VATS bullectomy' },
+    ],
+    disposition: 'Small and asymptomatic: discharge after observation with close follow-up. Large or symptomatic: admit. Secondary PTX: always admit.',
+    pearls: [
+      'Most common in tall, thin males age 20–40 — often related to apical subpleural blebs',
+      'Recurrence rate: ~30% after first episode, ~50% after second — counsel about smoking cessation and risk',
+      '100% O2 promotes nitrogen absorption from pleural space — use even in primary PTX',
+      'After needle aspiration: check CXR at 1 h — full re-expansion = success; failure = chest tube',
+      'Avoid air travel and scuba diving until fully resolved + at least 6 weeks',
+    ],
+  },
+
+  // ─── Neurological (Moderate) ──────────────────────────────────────────────────
+
+  {
+    id: 'tia',
+    name: 'Transient Ischemic Attack (TIA)',
+    aliases: ['TIA', 'Mini-stroke'],
+    system: 'Neurological',
+    acuity: 'Moderate',
+    tags: ['focal deficit', 'neuro', 'stroke risk', 'speech', 'weakness', 'transient'],
+    overview: 'Transient neurological dysfunction from focal brain ischemia without infarction, resolving within 24 h (usually < 1 h). High short-term stroke risk — 10–15% within 90 days, highest in the first 48 h. Rapid evaluation and treatment are essential.',
+    presentation: {
+      symptoms: ['Sudden focal neurological deficit that resolves: hemiparesis, hemisensory loss, aphasia, dysarthria, visual field defect, diplopia, ataxia'],
+      signs: ['Often NORMAL at presentation (deficit has resolved)', 'Assess for carotid bruit, arrhythmia, BP discrepancy between arms'],
+      redFlags: ['ABCD2 ≥ 4 = high early stroke risk', 'Crescendo TIAs (multiple within hours) = near-emergency'],
+    },
+    workup: {
+      labs: ['CBC', 'BMP', 'Glucose (stat)', 'HbA1c', 'Lipids', 'Coags', 'ESR/CRP if vasculitis suspected', 'Hypercoagulable panel if young or unprovoked'],
+      imaging: ['Non-contrast CT head (rule out hemorrhage)', 'MRI-DWI (gold standard — detects small infarcts; DWI positive = stroke, not TIA)', 'CTA or MRA head and neck (carotid stenosis, intracranial disease)'],
+      other: ['Cardiac telemetry × 24–48 h (AF)', '30-day event monitor if paroxysmal AF suspected', 'Echocardiogram (cardioembolic source)', 'ABCD2 score (0–7): A age ≥ 60 (+1), B BP ≥ 140/90 (+1), C unilateral weakness (+2) or speech only (+1), D duration ≥ 60 min (+2) or 10–59 min (+1), D diabetes (+1)'],
+    },
+    treatment: [
+      { step: 'Antiplatelet — dual antiplatelet therapy (DAPT)', detail: 'Aspirin 162–325 mg + clopidogrel 300–600 mg load then 75 mg daily × 21 days (POINT/CHANCE trials), then aspirin alone' },
+      { step: 'High-intensity statin', detail: 'Atorvastatin 40–80 mg PO' },
+      { step: 'Blood pressure control: start or optimize antihypertensives', detail: 'Target < 130/80 long-term; avoid aggressive acute lowering in first 24–48 h' },
+      { step: 'AF detected: anticoagulation', detail: 'DOAC (apixaban, rivaroxaban) preferred over warfarin for non-valvular AF' },
+      { step: 'Carotid stenosis ≥ 70%: urgent carotid endarterectomy (CEA) within 2 weeks', detail: 'Greatest benefit of CEA is within 2 weeks of TIA' },
+    ],
+    disposition: 'ABCD2 ≥ 4 or high-risk features: admit for expedited workup. Low-risk (ABCD2 ≤ 3): rapid TIA clinic with same-day or next-day MRI, telemetry, and echo.',
+    pearls: [
+      'Stroke risk is highest in the first 48 h — do NOT send patient home with a "follow up next week" plan',
+      'DWI positive on MRI = ischemic stroke, not TIA — changes prognosis and treatment',
+      'ABCD2 score ≥ 4 warrants urgent admission or same-day evaluation',
+      'Amaurosis fugax (monocular transient vision loss) = ophthalmic artery TIA — treat identically',
+      'Dual antiplatelet (aspirin + clopidogrel) × 21 days ↓ 90-day stroke risk by ~30% (POINT/CHANCE)',
+    ],
+  },
+
+  {
+    id: 'migraine',
+    name: 'Migraine',
+    aliases: ['Migraine headache', 'Refractory migraine', 'Status migrainosus'],
+    system: 'Neurological',
+    acuity: 'Moderate',
+    tags: ['headache', 'nausea', 'photophobia', 'aura', 'unilateral'],
+    overview: 'Episodic severe headache with neurological symptoms. ED presentation typically represents a severe or refractory attack. The primary task is to rule out secondary causes (SAH, meningitis, mass), then treat aggressively with non-opioid abortive therapy.',
+    presentation: {
+      symptoms: ['Unilateral throbbing headache (may be bilateral)', 'Nausea and vomiting', 'Photophobia', 'Phonophobia', 'Visual aura (scotoma, scintillations) in 25–30%'],
+      signs: ['Photophobia and phonophobia on exam', 'No fever', 'No meningismus', 'No focal neurological deficit in uncomplicated migraine'],
+      redFlags: ['Thunderclap (10/10, maximal at onset) = SAH until proven otherwise', 'Fever + meningismus = meningitis', 'New neurological deficit', 'First or worst headache of life', 'Age > 50 (new headache)'],
+    },
+    workup: {
+      labs: ['BMP', 'CBC — only if atypical or red flags present'],
+      imaging: ['Non-contrast CT head if any red flag present (r/o hemorrhage, mass, hydrocephalus)'],
+      other: ['LP: only if CT negative + thunderclap onset or fever/meningismus', 'No workup needed for typical recurrent migraine presentation'],
+    },
+    treatment: [
+      { step: 'IV fluids: 1 L NS if vomiting or dehydrated', detail: 'Dark quiet room; dim lights' },
+      { step: 'Dopamine antagonist (first-line abortive)', detail: 'Prochlorperazine (Compazine) 10 mg IV + diphenhydramine 25 mg IV (prevents akathisia); OR metoclopramide 10–20 mg IV' },
+      { step: 'NSAID', detail: 'Ketorolac 15–30 mg IV; ibuprofen 600–800 mg PO if able to tolerate' },
+      { step: 'Triptan (if no contraindications)', detail: 'Sumatriptan 6 mg SC or 50–100 mg PO; avoid in CV disease, uncontrolled HTN, basilar/hemiplegic migraine' },
+      { step: 'Magnesium sulfate 1–2 g IV', detail: 'Especially effective for migraine with aura or menstrual migraine' },
+      { step: 'Avoid opioids', detail: 'Less effective than dopamine antagonists; promote medication overuse headache (MOH)' },
+    ],
+    disposition: 'Discharge when pain < 3/10, tolerating PO, able to ambulate. Prescribe triptan + NSAID for home use. Neurology referral if > 4 attacks/month for preventive therapy.',
+    pearls: [
+      'Prochlorperazine + diphenhydramine is more effective than opioids and is the standard of care for ED migraine',
+      'Opioids promote medication overuse headache — avoid as first-line treatment',
+      '"Thunderclap headache" = maximal at onset → always CT head; if negative → LP for xanthochromia (SAH)',
+      'Diphenhydramine co-administration prevents akathisia and restlessness from prochlorperazine',
+      'IV magnesium is particularly effective in menstrual migraine and migraine with aura',
+    ],
+  },
+
+  // ─── Gastrointestinal (Moderate) ─────────────────────────────────────────────
+
+  {
+    id: 'appendicitis',
+    name: 'Acute Appendicitis',
+    system: 'Gastrointestinal',
+    acuity: 'Moderate',
+    tags: ['abdominal pain', 'RLQ', 'nausea', 'fever', 'surgical'],
+    overview: 'Inflammation of the vermiform appendix from luminal obstruction. Most common cause of acute abdominal surgery. Perforation risk increases with delay — approximately 20% at 24 h.',
+    presentation: {
+      symptoms: ['Periumbilical pain migrating to RLQ (McBurney point)', 'Anorexia', 'Nausea and vomiting', 'Low-grade fever', 'Constipation or diarrhea'],
+      signs: ['RLQ tenderness at McBurney point', 'Guarding and rigidity', 'Rovsing sign (LLQ pressure causes RLQ pain)', 'Psoas sign (right hip extension pain)', 'Obturator sign (internal rotation of right hip)'],
+      redFlags: ['High fever > 39°C', 'Diffuse peritonitis (perforation)', 'Prolonged duration > 48–72 h', 'Immunocompromised or elderly (atypical presentations)'],
+    },
+    workup: {
+      labs: ['CBC (WBC > 10,000 in 70–80%; > 15,000 suggests perforation)', 'BMP', 'CRP', 'LFTs (r/o biliary)', 'β-hCG in all women of reproductive age (r/o ectopic pregnancy)'],
+      imaging: ['CT abdomen/pelvis with IV contrast (gold standard — 94% sensitive, 95% specific)', 'US (pregnant women and children — 75–90% sensitive; limited by body habitus)', 'MRI if pregnant and US equivocal'],
+      other: ['Alvarado score (0–10): ≥ 7 = high likelihood surgical appendicitis'],
+    },
+    treatment: [
+      { step: 'NPO, IV fluids, IV analgesia', detail: 'IV opioids or ketorolac — do NOT withhold analgesia; does not mask diagnosis' },
+      { step: 'Pre-operative antibiotics', detail: 'Ceftriaxone 2 g IV + metronidazole 500 mg IV; or piperacillin-tazobactam 3.375 g IV' },
+      { step: 'Surgical consult immediately' },
+      { step: 'Laparoscopic appendectomy (standard of care)' },
+      { step: 'Non-operative management (select patients)', detail: 'CODA trial: antibiotics alone (cefdinir + metronidazole PO × 10 days) is an option for uncomplicated appendicitis — discuss with surgeon' },
+    ],
+    disposition: 'Admit for surgical management. Perforated appendicitis → emergent surgery or IR drainage of abscess with interval appendectomy.',
+    pearls: [
+      'β-hCG FIRST in any woman of reproductive age with RLQ pain — ectopic pregnancy is a different surgical emergency',
+      'Analgesia does NOT mask appendicitis — administer early and generously',
+      'Retrocecal appendix: pain may be posterior or minimal — diagnosis more difficult, CT is crucial',
+      'CT preferred over US in adults — IV contrast adds detail; oral contrast adds little',
+      'Non-operative management is a valid option for uncomplicated appendicitis but requires discussion with the patient about recurrence risk (~30%)',
+    ],
+  },
+
+  {
+    id: 'cholecystitis',
+    name: 'Acute Cholecystitis',
+    aliases: ['Gallbladder inflammation'],
+    system: 'Gastrointestinal',
+    acuity: 'Moderate',
+    tags: ['RUQ pain', 'gallbladder', 'fever', 'gallstones', 'Murphy sign', 'fatty meals'],
+    overview: 'Acute inflammation of the gallbladder, most commonly from cystic duct obstruction by a gallstone (calculous). Murphy sign is pathognomonic. Early laparoscopic cholecystectomy reduces morbidity and length of stay.',
+    presentation: {
+      symptoms: ['RUQ or epigastric pain (constant, worsens after fatty meals)', 'Nausea and vomiting', 'Fever', 'Right shoulder tip pain (referred via phrenic nerve)'],
+      signs: ['RUQ tenderness', 'Murphy sign (arrest of inspiration with RUQ palpation)', 'Low-grade fever', 'Mild jaundice if CBD involvement'],
+      redFlags: ["Charcot's triad (fever + RUQ pain + jaundice) = ascending cholangitis", "Reynold's pentad adds AMS + hypotension = emergency", 'Septic appearance'],
+    },
+    workup: {
+      labs: ['CBC (leukocytosis)', 'BMP', 'LFTs (↑ ALT/AST if hepatic; ↑ bilirubin if CBD stone)', 'Lipase (r/o pancreatitis)', 'Blood cultures if septic', 'β-hCG'],
+      imaging: ['RUQ ultrasound (first-line): gallstones, wall thickening > 4 mm, pericholecystic fluid, sonographic Murphy sign (88% sensitive)', 'CT abdomen if US equivocal or complications suspected', 'HIDA scan if US negative but clinical suspicion high'],
+    },
+    treatment: [
+      { step: 'NPO, IV fluids, IV analgesia', detail: 'IV opioids are safe (morphine does not worsen Oddi spasm — prior teaching has been refuted); ketorolac IV' },
+      { step: 'Antibiotics', detail: 'Ceftriaxone 1–2 g IV q24h + metronidazole 500 mg IV q8h; or piperacillin-tazobactam 3.375 g IV q6h' },
+      { step: 'Surgery consult: laparoscopic cholecystectomy (definitive)' },
+      { step: 'Early laparoscopic cholecystectomy preferred (within 24–72 h)', detail: 'Early > interval — ↓ complications, ↓ length of stay, equivalent safety (Tokyo Guidelines)' },
+      { step: 'Cholangitis: urgent ERCP for CBD stone extraction + ICU if septic' },
+    ],
+    disposition: "Admit for IV antibiotics, analgesia, and surgical planning. Ascending cholangitis → ICU.",
+    pearls: [
+      "Tokyo Guidelines 2018: Grade I (mild), II (moderate), III (severe) — guides urgency of surgery",
+      "Charcot's triad is present in only 50–70% of cholangitis — maintain suspicion with fever + jaundice alone",
+      'Acalculous cholecystitis: no gallstones — occurs in critically ill (ICU, post-surgery, trauma, TPN); percutaneous cholecystostomy if too sick for surgery',
+      'Choledocholithiasis (CBD stone): obstructive jaundice + dilated CBD on US → ERCP before cholecystectomy',
+      'Cholecystitis in pregnancy: laparoscopic cholecystectomy is safe in all trimesters; delay increases risk of preterm labor',
+    ],
+  },
+
+  {
+    id: 'pancreatitis',
+    name: 'Acute Pancreatitis',
+    system: 'Gastrointestinal',
+    acuity: 'Moderate',
+    tags: ['epigastric pain', 'lipase', 'nausea', 'gallstone', 'alcohol', 'back pain'],
+    overview: 'Acute inflammation of the pancreas from premature activation of digestive enzymes. Gallstones (40%) and alcohol (30%) are the leading causes. Ranges from mild/self-limited to severe with necrosis and multiorgan failure.',
+    presentation: {
+      symptoms: ['Severe epigastric pain radiating to the back', 'Nausea and vomiting', 'Fever', 'Anorexia', 'Pain worsened by eating'],
+      signs: ['Epigastric tenderness', 'Abdominal guarding', 'Diminished bowel sounds', 'Tachycardia', 'Cullen sign (periumbilical bruising) and Grey Turner sign (flank bruising) = hemorrhagic pancreatitis (late)'],
+      redFlags: ['SIRS criteria', 'Hypotension', 'SpO2 < 95%', 'Rising creatinine', 'BISAP ≥ 3 or Ranson ≥ 3 = severe disease'],
+    },
+    workup: {
+      labs: ['Lipase (> 3× ULN = diagnostic; more specific than amylase)', 'Amylase', 'LFTs (ALT > 3× ULN → gallstone etiology)', 'BMP', 'CBC', 'Triglycerides (if no gallstones/alcohol)', 'Calcium', 'ABG if severe'],
+      imaging: ['RUQ ultrasound (gallstones as etiology; CBD dilation)', 'CT abdomen with contrast (NOT needed acutely unless diagnosis uncertain or no improvement by 48–72 h — detects necrosis)'],
+      other: ['BISAP score: BUN > 25, Impaired mentation, SIRS, Age > 60, Pleural effusion. ≥ 3 = severe.', 'Ranson criteria at admission and 48 h'],
+    },
+    treatment: [
+      { step: 'NPO initially; early enteral nutrition within 24–48 h in mild–moderate disease', detail: 'Early enteral feeding ↓ infectious complications; enteral > parenteral' },
+      { step: 'Aggressive IV fluid resuscitation', detail: 'Lactated Ringer preferred over NS (↓ SIRS, ↓ mortality — WATERFALL trial); 250–500 mL/h initially; reassess frequently' },
+      { step: 'Analgesia: IV opioids (morphine, fentanyl), ketorolac', detail: 'Morphine does NOT worsen pancreatitis — prior teaching was wrong' },
+      { step: 'Antiemetics: ondansetron, prochlorperazine' },
+      { step: 'Antibiotics: NOT routinely indicated', detail: 'Only if: infected necrosis suspected (worsening after 7–10 days, gas in pancreas on CT) or concurrent cholangitis' },
+      { step: 'Gallstone pancreatitis: early ERCP if cholangitis or CBD obstruction; cholecystectomy before discharge (same admission if mild) to prevent recurrence' },
+    ],
+    disposition: 'Mild (BISAP 0–2): general medical ward with IV fluids and analgesia. Severe (BISAP ≥ 3): ICU. Monitor for pseudocyst, abscess, and necrosis.',
+    pearls: [
+      'Lactated Ringer > Normal Saline — NS causes hyperchloremic acidosis and worsens SIRS',
+      'CT in first 72 h overestimates severity — necrosis not apparent early; reserve for diagnostic uncertainty or failure to improve',
+      'Most pancreatitis is mild and self-limited — aggressive supportive care is the treatment',
+      'Hypertriglyceridemia-induced pancreatitis (TG > 1,000 mg/dL): insulin infusion or plasmapheresis may be needed',
+      'Infected pancreatic necrosis: fever + worsening after day 7 → CT-guided aspiration for culture → targeted antibiotics; late surgical/endoscopic debridement',
+    ],
+  },
+
+  // ─── Renal & GU (Moderate) ───────────────────────────────────────────────────
+
+  {
+    id: 'pyelonephritis',
+    name: 'Pyelonephritis',
+    aliases: ['Kidney infection', 'Upper UTI'],
+    system: 'Renal & GU',
+    acuity: 'Moderate',
+    tags: ['flank pain', 'fever', 'dysuria', 'UTI', 'CVA tenderness', 'infection'],
+    overview: 'Bacterial infection of the renal parenchyma and collecting system. E. coli causes 80–85% of cases. CVA tenderness with fever and lower urinary symptoms is the classic triad. Complicated pyelonephritis has higher morbidity.',
+    presentation: {
+      symptoms: ['Fever and chills', 'Unilateral flank or back pain', 'Costovertebral angle (CVA) tenderness', 'Dysuria', 'Frequency and urgency', 'Nausea and vomiting'],
+      signs: ['CVA tenderness (key finding)', 'Fever', 'Tachycardia'],
+      redFlags: ['Sepsis criteria (MAP < 65, lactate > 2)', 'Inability to tolerate PO', 'Obstructed ureter (stone + infection = emergency)', 'Pregnancy', 'Immunocompromise', 'Anatomical abnormality'],
+    },
+    workup: {
+      labs: ['CBC (leukocytosis)', 'BMP (Cr)', 'Blood cultures × 2 if septic or hospitalized', 'UA (pyuria, bacteriuria, nitrites, WBC casts)', 'Urine culture + sensitivity BEFORE antibiotics'],
+      imaging: ['CT abdomen/pelvis without contrast if: obstruction suspected, failure to improve, abscess concern', 'RUQ or renal US in pregnant patients'],
+    },
+    treatment: [
+      { step: 'Urine culture before starting antibiotics', detail: 'Critical for de-escalation and detecting resistance' },
+      { step: 'Uncomplicated outpatient (afebrile, tolerating PO, no sepsis)', detail: 'Ciprofloxacin 500 mg PO BID × 7 days (check local fluoroquinolone resistance rate); or TMP-SMX DS BID × 14 days if susceptible; or ceftriaxone 1 g IM × 1 then oral step-down' },
+      { step: 'Inpatient IV antibiotics', detail: 'Ceftriaxone 1–2 g IV q24h; or ciprofloxacin 400 mg IV q12h; de-escalate to oral based on culture/sensitivities' },
+      { step: 'IV fluids if dehydrated or vomiting' },
+      { step: 'Analgesia: NSAIDs + opioids for flank pain' },
+      { step: 'Urology consult if: obstruction, abscess, emphysematous pyelonephritis, bilateral involvement' },
+    ],
+    disposition: 'Outpatient if: healthy, tolerating PO, able to follow up in 24–48 h. Admit if: sepsis, unable to tolerate PO, pregnancy, DM, obstruction, immunocompromise, failure to improve.',
+    pearls: [
+      'Always send urine culture BEFORE antibiotics — culture guides de-escalation and resistance detection',
+      'Fluoroquinolone resistance in E. coli is 15–25% in many regions — check your local antibiogram',
+      'Perinephric abscess: failure to improve after 72 h of antibiotics → CT → percutaneous drainage',
+      'Emphysematous pyelonephritis: gas in renal parenchyma on CT — diabetics, life-threatening — urgent urology',
+      'Complicated pyelonephritis = male, pregnant, DM, immunocompromised, anatomical abnormality, hospital-acquired',
+    ],
+  },
+
+  {
+    id: 'nephrolithiasis',
+    name: 'Nephrolithiasis (Renal Colic)',
+    aliases: ['Kidney stone', 'Ureterolithiasis', 'Renal colic'],
+    system: 'Renal & GU',
+    acuity: 'Moderate',
+    tags: ['flank pain', 'hematuria', 'colic', 'kidney stone', 'CVA', 'ureter'],
+    overview: 'Urinary calculi causing ureteral obstruction and severe colicky flank pain. Calcium oxalate stones account for ~80%. Most stones < 5 mm pass spontaneously. Key priorities: analgesia, exclude infection/obstruction, and urological triage by stone size.',
+    presentation: {
+      symptoms: ['Sudden severe colicky unilateral flank pain radiating to groin, testicle, or labia', 'Nausea and vomiting', 'Restlessness (unable to find comfortable position — distinguishes from peritoneal irritation)', 'Gross or microscopic hematuria'],
+      signs: ['CVA tenderness', 'Restlessness and agitation', 'Fever ONLY if concomitant infection', 'Normal abdominal exam between spasms'],
+      redFlags: ['Fever + obstruction = urologic emergency (infected hydronephrosis)', 'Single functioning kidney with complete obstruction', 'Bilateral obstruction', 'Hypotension or anuria'],
+    },
+    workup: {
+      labs: ['BMP (Cr — baseline renal function and degree of obstruction)', 'CBC', 'UA (hematuria in 85–90%; absence does NOT exclude stone)', 'Urine culture if UA abnormal', 'β-hCG'],
+      imaging: ['CT KUB without contrast (gold standard — 97% sensitive, 96% specific; identifies size and location)', 'US (first-line in pregnant women, children, and known stone formers — identifies hydronephrosis, limited for small ureteral stones)'],
+    },
+    treatment: [
+      { step: 'Analgesia: IV NSAIDs first-line', detail: 'Ketorolac 15–30 mg IV — as effective as opioids for ureteral colic plus anti-spasmodic; IV opioids (morphine, fentanyl) for severe pain or NSAID failure' },
+      { step: 'Antiemetics: ondansetron or prochlorperazine' },
+      { step: 'IV fluids if dehydrated or vomiting', detail: 'Do NOT give excess fluids to "flush the stone" — no evidence for this practice' },
+      { step: 'Medical expulsive therapy (MET): tamsulosin 0.4 mg PO daily × 4 weeks', detail: 'For distal ureteral stones 5–10 mm — ↑ spontaneous passage rate; modest benefit per recent trials' },
+      { step: 'Strain urine to capture stone for analysis' },
+      { step: 'Urgent urology if: obstruction + infection, single kidney with obstruction, intractable pain, stone > 10 mm' },
+    ],
+    disposition: 'Discharge if pain controlled, tolerating PO, no infection, no obstruction requiring immediate intervention. Urology follow-up within 1 week.',
+    pearls: [
+      'Infected hydronephrosis (stone + fever + obstruction) = urologic emergency → IV antibiotics + urgent ureteral stent or percutaneous nephrostomy',
+      'Stone size predicts spontaneous passage: < 4 mm → 80%; 4–6 mm → 60%; > 6 mm → 20%; > 10 mm → surgical',
+      'NSAIDs reduce ureteral smooth muscle spasm and are superior to opioids alone — use both in severe colic',
+      'Absence of hematuria does NOT exclude nephrolithiasis (absent in 10–15% of cases)',
+      'Calcium stones (80%) are radiopaque on plain XR; uric acid stones are radiolucent — only visible on CT',
+    ],
+  },
+
+  // ─── Musculoskeletal (Moderate) ───────────────────────────────────────────────
+
+  {
+    id: 'gout',
+    name: 'Acute Gout',
+    aliases: ['Gouty arthritis', 'Gout flare', 'Podagra'],
+    system: 'Musculoskeletal',
+    acuity: 'Moderate',
+    tags: ['joint pain', 'swelling', 'uric acid', 'big toe', 'monoarthritis', 'warm joint'],
+    overview: 'Acute inflammatory arthritis from monosodium urate crystal deposition in synovial joints. Most common cause of acute monoarthritis in adults. 1st MTP joint (podagra) is classic. Precipitated by dietary excess, alcohol, dehydration, medications, or intercurrent illness.',
+    presentation: {
+      symptoms: ['Sudden-onset severe joint pain (often overnight)', 'Swelling, warmth, erythema — debilitating within hours', 'Low-grade fever and malaise'],
+      signs: ['Exquisitely tender, warm, erythematous, swollen joint', 'Most common: 1st MTP, ankle, knee, wrist', 'Tophi (chalky deposits) on ears, hands, elbows in chronic gout'],
+      redFlags: ['Fever > 38.5°C + severe joint inflammation → joint aspiration to rule out septic arthritis', 'Polyarticular involvement or prosthetic joint'],
+    },
+    workup: {
+      labs: ['Uric acid (may be NORMAL during acute attack — low sensitivity; elevated level supports diagnosis but is not diagnostic)', 'CBC (leukocytosis)', 'CRP/ESR', 'BMP', 'LFTs (before NSAID/colchicine)'],
+      imaging: ['XR (acute: soft tissue swelling; chronic: "rat bite" erosions with overhanging cortical margin)', 'US (double contour sign = urate on cartilage surface)', 'DECT (dual energy CT — confirms urate deposits without aspiration)'],
+      other: ['Joint aspiration (GOLD STANDARD): negatively birefringent needle-shaped crystals under polarized microscopy. Send for WBC, crystal analysis, gram stain, culture (to exclude septic arthritis)'],
+    },
+    treatment: [
+      { step: 'Anti-inflammatory therapy — choose one (all equally effective):' },
+      { step: 'NSAIDs (first-line if no contraindications)', detail: 'Indomethacin 25–50 mg TID; or naproxen 500 mg BID; or ibuprofen 600–800 mg TID — continue until flare resolves (5–7 days). Avoid with CKD, GI bleed, CV disease.' },
+      { step: 'Colchicine (if NSAIDs contraindicated)', detail: '1.2 mg PO then 0.6 mg 1 h later (low-dose protocol — as effective as high-dose, fewer GI side effects). Ongoing 0.6 mg daily for 3–6 months as prophylaxis.' },
+      { step: 'Corticosteroids (if NSAIDs and colchicine contraindicated)', detail: 'Prednisone 30–40 mg PO × 3–5 days, taper; OR triamcinolone 40 mg IA (intra-articular injection) for monoarticular flare' },
+      { step: 'Ice, elevation, rest' },
+      { step: 'Do NOT start urate-lowering therapy (allopurinol) during acute flare', detail: 'Can prolong or worsen attack — start 2–4 weeks after flare resolves' },
+    ],
+    disposition: 'Outpatient management in most cases. Admit only if: unable to tolerate PO, septic arthritis not excluded, severe systemic illness.',
+    pearls: [
+      'Uric acid may be NORMAL or LOW during an acute flare — do not use to diagnose or exclude acute gout',
+      'Always aspirate if septic arthritis is in the differential — you cannot distinguish by clinical exam alone',
+      'Do NOT start allopurinol during a flare — it can precipitate or prolong the attack',
+      'Colchicine: dose-reduce in renal impairment; avoid with strong CYP3A4 inhibitors (clarithromycin) — risk of fatal toxicity',
+      'Common medication precipitants: diuretics (thiazide, loop), low-dose aspirin, cyclosporine, niacin, pyrazinamide',
+    ],
+  },
+
+  // ─── Toxicology (Moderate) ───────────────────────────────────────────────────
+
+  {
+    id: 'alcohol-withdrawal',
+    name: 'Alcohol Withdrawal',
+    aliases: ['AWS', 'DTs', 'Delirium tremens', 'Ethanol withdrawal'],
+    system: 'Toxicology',
+    acuity: 'Moderate',
+    tags: ['alcohol', 'withdrawal', 'seizure', 'tremor', 'CIWA', 'benzodiazepine', 'DTs'],
+    overview: 'Neurological hyperexcitability syndrome from abrupt cessation or reduction of alcohol in chronic heavy drinkers. Spectrum: mild tremor → moderate (anxiety, diaphoresis, tachycardia) → severe (seizures, delirium tremens). Most dangerous at 48–72 h.',
+    presentation: {
+      symptoms: ['Tremor', 'Anxiety and agitation', 'Diaphoresis', 'Nausea and vomiting', 'Insomnia', 'Headache', 'Seizures (6–48 h after last drink)', 'Hallucinations (visual/auditory/tactile, 12–48 h)'],
+      signs: ['Tachycardia', 'Hypertension', 'Diaphoresis', 'Tremor', 'Hyperreflexia', 'Delirium tremens (DTs): hyperthermia + autonomic instability + confusion'],
+      redFlags: ['Temperature > 38.5°C', 'New seizures', 'Delirium', 'HR > 120 or BP > 180/100', 'CIWA-Ar > 15'],
+    },
+    workup: {
+      labs: ['BMP (Na, K, Mg, glucose, Cr, phosphate)', 'LFTs', 'CBC (MCV elevated in chronic alcoholism)', 'Coags (INR reflects liver function)', 'Urine tox screen', 'Blood alcohol level', 'Thiamine status (clinical)'],
+      imaging: ['CT head if: head trauma, focal neurological deficit, first seizure — r/o intracranial bleed'],
+      other: ['CIWA-Ar score (0–67): < 8 = mild; 8–15 = moderate; > 15 = severe; > 20 = ICU-level care'],
+    },
+    treatment: [
+      { step: 'Thiamine 100 mg IV BEFORE any glucose', detail: 'Prevents Wernicke encephalopathy — glucose metabolism depletes remaining thiamine. Always thiamine first.' },
+      { step: 'Dextrose if hypoglycemic (after thiamine given)' },
+      { step: 'Benzodiazepines — first-line; use symptom-triggered dosing (CIWA protocol):' },
+      { step: 'Diazepam 5–10 mg IV q5–10 min (preferred — long-acting, sustained coverage)', detail: 'OR lorazepam 2–4 mg IV q15–30 min (preferred in liver failure — no active metabolites)' },
+      { step: 'Magnesium sulfate 2 g IV (replace — commonly deficient, ↓ seizure threshold)' },
+      { step: 'Folate 1 mg PO, multivitamin' },
+      { step: 'Phenobarbital: adjunct for refractory withdrawal or severe cases', detail: 'Propofol infusion if DTs in ICU' },
+    ],
+    disposition: 'Mild (CIWA < 8): outpatient with chlordiazepoxide + follow-up in 24 h. Moderate (8–15): observation unit or admit. Severe (> 15) or DTs: ICU.',
+    pearls: [
+      'THIAMINE BEFORE GLUCOSE — this is the rule; glucose without thiamine can precipitate Wernicke encephalopathy',
+      "Wernicke encephalopathy: confusion + ophthalmoplegia + ataxia (triad often incomplete) → thiamine 500 mg IV TID × 3 days",
+      'Delirium tremens (DTs): onset 48–96 h after last drink; untreated mortality 5–15%; ICU care required',
+      'Benzodiazepine-refractory withdrawal: add phenobarbital 30 mg IV q15–30 min PRN',
+      'CIWA-Ar score guides dosing — symptom-triggered protocol uses less total benzodiazepine than fixed schedules',
+    ],
+  },
+
+  // ─── OB/GYN (Moderate) ───────────────────────────────────────────────────────
+
+  {
+    id: 'ectopic-pregnancy',
+    name: 'Ectopic Pregnancy',
+    aliases: ['Tubal pregnancy', 'Ectopic'],
+    system: 'OB/GYN',
+    acuity: 'Moderate',
+    tags: ['pregnancy', 'pelvic pain', 'vaginal bleeding', 'bhcg', 'adnexal'],
+    overview: 'Implantation of the fertilized ovum outside the uterine cavity — 95% in the fallopian tube. Leading cause of first-trimester maternal death. A stable ectopic is Moderate acuity; a ruptured ectopic with hemodynamic instability is a surgical emergency (High acuity).',
+    presentation: {
+      symptoms: ['Amenorrhea + vaginal bleeding + unilateral pelvic pain (classic triad)', 'Shoulder tip pain (diaphragmatic irritation from hemoperitoneum)', 'Nausea', 'Syncope or presyncope'],
+      signs: ['Adnexal tenderness', 'Cervical motion tenderness', 'Uterus smaller than expected for dates', 'Adnexal mass', 'Vital signs may be normal (stable) or show hemodynamic instability (ruptured)'],
+      redFlags: ['Hypotension + tachycardia = ruptured ectopic → immediate surgical emergency', 'Rebound tenderness', 'Syncope', 'Shoulder tip pain (hemoperitoneum)'],
+    },
+    workup: {
+      labs: ['Quantitative β-hCG (always check in women of reproductive age with abdominal pain or vaginal bleeding)', 'CBC (Hgb/Hct)', 'Blood type and screen (Rh status)', 'BMP', 'Coagulation studies'],
+      imaging: ['Transvaginal pelvic ultrasound (preferred — more sensitive than transabdominal)', 'Empty uterus + adnexal mass + free fluid in pouch of Douglas = ectopic until proven otherwise', 'Discriminatory zone: β-hCG > 1,500–2,000 mIU/mL → IUP should be visible on TVUS; if not = ectopic concern'],
+      other: ['Serial β-hCG: normal IUP doubles every 48 h; ectopic = abnormally slow rise or plateau (< 66% rise in 48 h)'],
+    },
+    treatment: [
+      { step: 'OB/GYN consult immediately regardless of hemodynamic status' },
+      { step: 'Hemodynamically stable: methotrexate (MTX) if criteria met', detail: 'Single dose MTX 50 mg/m² IM: criteria = stable, β-hCG < 5,000, no cardiac activity, no ruptured tube on US, normal LFTs/CBC, reliable follow-up. Monitor β-hCG days 4 and 7 (must fall ≥ 15%).' },
+      { step: 'Surgical management: laparoscopic salpingostomy or salpingectomy', detail: 'Indications: MTX failure, β-hCG > 5,000, cardiac activity, large ectopic, patient preference, hemodynamic instability' },
+      { step: 'Rh-negative patients: RhoGAM (Rh immunoglobulin)', detail: '50 mcg IM if < 12 weeks; 300 mcg IM if > 12 weeks' },
+      { step: 'Ruptured ectopic: immediate OR, MTP if hemorrhagic shock, aggressive resuscitation' },
+    ],
+    disposition: 'Admit for surgical management or MTX monitoring with serial β-hCG. Strict return precautions for all ectopic patients.',
+    pearls: [
+      'β-hCG in EVERY woman of reproductive age with abdominal pain or vaginal bleeding — do not wait for imaging',
+      'Heterotopic pregnancy (IUP + ectopic simultaneously): rare normally, more common with IVF — an IUP on US does NOT exclude a concurrent ectopic',
+      'Rh-negative women: give RhoGAM regardless of outcome (threatened miscarriage, ectopic, or abortion)',
+      'Ruptured ectopic: sudden severe pain that may briefly improve (hematoma forms, then re-bleeds) — can be deceptively reassuring',
+      'Interstitial (cornual) ectopic: implants in uterine wall — ruptures later (8–12 weeks), higher blood loss, harder to see on US',
+    ],
+  },
 
   // ─── Hematology & Oncology ────────────────────────────────────────────────────
 
@@ -389,10 +962,6 @@ export const conditions: Condition[] = [
   // TODO: Add conditions
 
   // ─── Psychiatry ───────────────────────────────────────────────────────────────
-
-  // TODO: Add conditions
-
-  // ─── OB/GYN ───────────────────────────────────────────────────────────────────
 
   // TODO: Add conditions
 

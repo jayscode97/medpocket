@@ -1,7 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useLayoutEffect } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../App';
 import { conditions } from '../data/conditions';
+import { usePins } from '../contexts/PinsContext';
 
 type Route = RouteProp<RootStackParamList, 'ConditionDetail'>;
 
@@ -19,7 +22,25 @@ function acuityTextStyle(acuity: string) {
 
 export default function ConditionDetailScreen() {
   const { params } = useRoute<Route>();
+  const navigation = useNavigation();
+  const { isPinned, togglePin } = usePins();
+
   const condition = conditions.find(c => c.id === params.conditionId);
+  const pinned = condition ? isPinned('condition', condition.id) : false;
+
+  useLayoutEffect(() => {
+    if (!condition) return;
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => togglePin({ kind: 'condition', id: condition.id, name: condition.name, sub: condition.system })}
+          style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Ionicons name={pinned ? 'star' : 'star-outline'} size={22} color={pinned ? '#e3b341' : '#8b949e'} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [pinned, condition?.id]);
 
   if (!condition) {
     return (

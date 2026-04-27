@@ -1,13 +1,34 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useLayoutEffect } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../App';
 import { drugs } from '../data/drugs';
+import { usePins } from '../contexts/PinsContext';
 
 type Route = RouteProp<RootStackParamList, 'DrugDetail'>;
 
 export default function DrugDetailScreen() {
   const { params } = useRoute<Route>();
+  const navigation = useNavigation();
+  const { isPinned, togglePin } = usePins();
+
   const drug = drugs.find(d => d.id === params.drugId);
+  const pinned = drug ? isPinned('drug', drug.id) : false;
+
+  useLayoutEffect(() => {
+    if (!drug) return;
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => togglePin({ kind: 'drug', id: drug.id, name: drug.name, sub: drug.drugClass })}
+          style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Ionicons name={pinned ? 'star' : 'star-outline'} size={22} color={pinned ? '#e3b341' : '#8b949e'} />
+        </TouchableOpacity>
+      ),
+    });
+  }, [pinned, drug?.id]);
 
   if (!drug) {
     return (

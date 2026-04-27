@@ -9,6 +9,7 @@ import { RootStackParamList } from '../App';
 import { conditions } from '../data/conditions';
 import { drugs } from '../data/drugs';
 import { procedures } from '../data/procedures';
+import { usePins, PinEntry } from '../contexts/PinsContext';
 
 type HomeNavProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -36,11 +37,13 @@ const COLORS = {
   accent:  '#2f81f7',
   text:    '#e6edf3',
   muted:   '#8b949e',
+  gold:    '#e3b341',
 };
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeNavProp>();
   const [query, setQuery] = useState('');
+  const { pins } = usePins();
 
   const results = useMemo<SearchResult[]>(() => {
     const q = query.toLowerCase().trim();
@@ -97,6 +100,16 @@ export default function HomeScreen() {
       navigation.navigate('DrugDetail', { drugId: result.id });
     } else {
       navigation.navigate('ProcedureDetail', { procedureId: result.id });
+    }
+  }
+
+  function handlePinPress(pin: PinEntry) {
+    if (pin.kind === 'condition') {
+      navigation.navigate('ConditionDetail', { conditionId: pin.id });
+    } else if (pin.kind === 'drug') {
+      navigation.navigate('DrugDetail', { drugId: pin.id });
+    } else {
+      navigation.navigate('ProcedureDetail', { procedureId: pin.id });
     }
   }
 
@@ -166,7 +179,50 @@ export default function HomeScreen() {
           )}
         </ScrollView>
       ) : (
-        <>
+        <ScrollView
+          style={styles.scrollArea}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.speedDialSection}>
+            <View style={styles.sectionHeaderRow}>
+              <Ionicons name="star" size={13} color={COLORS.gold} />
+              <Text style={styles.sectionHeaderText}>Favorites</Text>
+            </View>
+            {pins.length === 0 ? (
+              <View style={styles.emptyFavorites}>
+                <Text style={styles.emptyFavoritesText}>
+                  Tap ⭐ on any condition, drug, or procedure to add it here.
+                </Text>
+              </View>
+            ) : (
+              pins.map((pin, i) => {
+                const meta = KIND_META[pin.kind];
+                return (
+                  <TouchableOpacity
+                    key={`${pin.kind}-${pin.id}`}
+                    style={[
+                      styles.resultRow,
+                      i === 0 && styles.resultFirst,
+                      i === pins.length - 1 && styles.resultLast,
+                    ]}
+                    activeOpacity={0.75}
+                    onPress={() => handlePinPress(pin)}
+                  >
+                    <Text style={styles.resultIcon}>{meta.icon}</Text>
+                    <View style={styles.resultBody}>
+                      <Text style={styles.resultName}>{pin.name}</Text>
+                      <Text style={styles.resultSub}>{pin.sub}</Text>
+                    </View>
+                    <View style={[styles.kindBadge, { borderColor: meta.color }]}>
+                      <Text style={[styles.kindBadgeText, { color: meta.color }]}>{meta.label}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })
+            )}
+          </View>
+
           <View style={styles.navList}>
             {NAV_ITEMS.map(({ label, icon, screen }, i) => (
               <TouchableOpacity
@@ -184,7 +240,7 @@ export default function HomeScreen() {
 
           <View style={styles.spacer} />
           <Text style={styles.signature}>made by Jean Serhan</Text>
-        </>
+        </ScrollView>
       )}
     </SafeAreaView>
   );
@@ -252,6 +308,42 @@ const styles = StyleSheet.create({
   },
   kindBadgeText: { fontSize: 11, fontWeight: '600' },
 
+  // ── Home scroll area ──────────────────────────────────────────────────────────
+  scrollArea: { flex: 1 },
+  scrollContent: { paddingBottom: 40 },
+
+  // ── Favorites ─────────────────────────────────────────────────────────────────
+  speedDialSection: { marginTop: 24, marginHorizontal: 20 },
+  sectionHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 8,
+    marginLeft: 2,
+  },
+  sectionHeaderText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: COLORS.gold,
+    textTransform: 'uppercase',
+    letterSpacing: 0.8,
+  },
+  emptyFavorites: {
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  emptyFavoritesText: {
+    fontSize: 13,
+    color: COLORS.muted,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+
   // ── Nav tiles ─────────────────────────────────────────────────────────────────
   navList: {
     marginTop: 24,
@@ -273,6 +365,6 @@ const styles = StyleSheet.create({
   navIcon:  { fontSize: 26, lineHeight: 32, width: 34, textAlign: 'center' },
   navLabel: { flex: 1, fontSize: 17, fontWeight: '600', color: COLORS.text },
 
-  spacer: { flex: 1 },
+  spacer: { flex: 1, minHeight: 24 },
   signature: { textAlign: 'center', color: COLORS.muted, fontSize: 14, paddingBottom: 16 },
 });
