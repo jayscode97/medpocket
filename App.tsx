@@ -1,5 +1,5 @@
 import { Pressable } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -25,20 +25,33 @@ export type RootStackParamList = {
   ProcedureDetail: { procedureId: string };
 };
 
+const AppTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: '#0d1117',
+    card:       '#161b22',
+    text:       '#e6edf3',
+    border:     '#21262d',
+    primary:    '#2f81f7',
+  },
+};
+
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#0d1117' }}>
       <SafeAreaProvider>
         <PinsProvider>
-          <NavigationContainer>
+          <NavigationContainer theme={AppTheme}>
             <Stack.Navigator
               screenOptions={({ navigation }) => ({
                 headerStyle: { backgroundColor: '#161b22' },
                 headerTintColor: '#e6edf3',
                 headerTitleStyle: { fontWeight: '600', fontSize: 17 },
                 cardStyle: { backgroundColor: '#0d1117' },
+                cardOverlayEnabled: false,
                 headerLeft: ({ canGoBack }) =>
                   canGoBack ? (
                     <Pressable
