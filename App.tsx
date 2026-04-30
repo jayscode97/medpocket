@@ -1,6 +1,6 @@
 import { Pressable } from 'react-native';
 import { DarkTheme, NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
@@ -37,7 +37,7 @@ const AppTheme = {
   },
 };
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -50,13 +50,13 @@ export default function App() {
                 headerStyle: { backgroundColor: '#161b22' },
                 headerTintColor: '#e6edf3',
                 headerTitleStyle: { fontWeight: '600', fontSize: 17 },
-                cardStyle: { backgroundColor: '#0d1117' },
-                cardOverlayEnabled: false,
+                contentStyle: { backgroundColor: '#0d1117' },
+                headerBackVisible: false,
                 headerLeft: ({ canGoBack }) =>
                   canGoBack ? (
                     <Pressable
                       onPress={() => navigation.goBack()}
-                      style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center', marginLeft: 4 }}
+                      style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}
                     >
                       <Ionicons name="chevron-back" size={26} color="#e6edf3" />
                     </Pressable>

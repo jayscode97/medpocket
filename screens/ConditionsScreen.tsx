@@ -2,13 +2,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { conditions } from '../data/conditions';
 import { Acuity, Condition } from '../data/types';
 import { RootStackParamList } from '../App';
 import { usePins } from '../contexts/PinsContext';
 
-type Nav   = StackNavigationProp<RootStackParamList, 'Conditions'>;
+type Nav   = NativeStackNavigationProp<RootStackParamList, 'Conditions'>;
 type Route = RouteProp<RootStackParamList, 'Conditions'>;
 
 const ACUITY_COLOR: Record<Acuity, string> = {

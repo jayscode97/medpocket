@@ -2,13 +2,13 @@ import { useMemo, useState } from 'react';
 import { SectionList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { procedures } from '../data/procedures';
 import { Procedure } from '../data/types';
 import { RootStackParamList } from '../App';
 import { usePins } from '../contexts/PinsContext';
 
-type Nav = StackNavigationProp<RootStackParamList, 'Procedures'>;
+type Nav = NativeStackNavigationProp<RootStackParamList, 'Procedures'>;
 
 export default function ProceduresScreen() {
   const navigation = useNavigation<Nav>();

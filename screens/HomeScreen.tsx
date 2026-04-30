@@ -4,14 +4,14 @@ import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import { conditions } from '../data/conditions';
 import { drugs } from '../data/drugs';
 import { procedures } from '../data/procedures';
 import { usePins, PinEntry } from '../contexts/PinsContext';
 
-type HomeNavProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type HomeNavProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 type SearchResult =
   | { kind: 'condition'; id: string; name: string; sub: string }
